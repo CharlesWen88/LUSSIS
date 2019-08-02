@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             case 1:
                             case 4:
                                 i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                i.putExtra("requisitionList", jsonObj.toString());
                                 startActivity(i);
                                 break;
                             case 2:

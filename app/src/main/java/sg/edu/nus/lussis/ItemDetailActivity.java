@@ -63,7 +63,12 @@ public class ItemDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, MyRequisitionsActivity.class));
+            Intent intent = new Intent(this, MyRequisitionsActivity.class);
+            Intent jsonObj = this.getIntent();
+            intent.putExtra("requisitionList", jsonObj.toString());
+
+            navigateUpTo(intent);
+
             return true;
         }
         return super.onOptionsItemSelected(item);

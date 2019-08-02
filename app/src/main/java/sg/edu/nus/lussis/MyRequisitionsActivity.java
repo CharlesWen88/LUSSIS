@@ -23,8 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.lussis.Model.Requisition;
+import sg.edu.nus.lussis.Model.RequisitionDetail;
 import sg.edu.nus.lussis.dummy.DummyContent;
 
 public class MyRequisitionsActivity extends AppCompatActivity
@@ -39,8 +46,6 @@ public class MyRequisitionsActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //May not do anything
-//        toolbar.setTitle(getTitle());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -58,6 +63,22 @@ public class MyRequisitionsActivity extends AppCompatActivity
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("requisitionList"));
+            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+            for (int i = 0; i<ja_Requisition.length(); i++){
+                JSONObject jsonR = ja_Requisition.getJSONObject(i);
+                requisitions.add(new Requisition(jsonR.getString("Id"),
+                        jsonR.getString("DateTime"),
+                        jsonR.getString("Status"),
+                        jsonR.getJSONArray("RequisitionDetails")));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
@@ -90,6 +111,9 @@ public class MyRequisitionsActivity extends AppCompatActivity
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ItemDetailActivity.class);
                     intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
+
+                    Intent jsonObj = ((MyRequisitionsActivity)view.getContext()).getIntent();
+                    intent.putExtra("requisitionList", jsonObj.toString());
 
                     context.startActivity(intent);
                 }
