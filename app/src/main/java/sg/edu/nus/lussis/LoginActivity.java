@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis1;
+package sg.edu.nus.lussis;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -24,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
-    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     final String url_Login = "http://10.0.2.2:56287/api/mobilelogin";
 
@@ -40,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                view.startAnimation(buttonClick);
 
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
@@ -71,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     .post(formBody)
                     .build();
 
-            Response response = null;
+            Response response;
 
             //executes the response and receives the response creates a JSON object from the
             //response string and uses the roleId to generate the next Activity page
@@ -86,27 +82,27 @@ public class LoginActivity extends AppCompatActivity {
                         switch (role){
                             case 1:
                             case 4:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                             case 2:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                             case 3:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                             case 5:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                             case 6:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                             default:
-                                i = new Intent(LoginActivity.this, SecondActivity.class);
+                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
                                 startActivity(i);
                                 break;
                         }

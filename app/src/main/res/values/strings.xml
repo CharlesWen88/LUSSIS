@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">LUSSIS1</string>
+    <string name="app_name">LUSSIS</string>
+
+    <string name="title_item_detail">Item Detail</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Name</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+
+    <string name="menu_pending_requisitions">Pending Requisitions</string>
+    <string name="menu_my_requisitions">My Requisitions</string>
+    <string name="menu_disbursement_list">Disbursement List</string>
+    <string name="menu_logout">Log Out</string>
 </resources>
