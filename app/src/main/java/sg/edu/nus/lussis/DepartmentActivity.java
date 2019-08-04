@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -16,6 +17,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,14 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import sg.edu.nus.lussis.Model.Requisition;
+import sg.edu.nus.lussis.Model.RequisitionsDTO;
 
-public class MyRequisitionsActivity extends AppCompatActivity
+public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listView;
@@ -48,14 +49,19 @@ public class MyRequisitionsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_requisitions);
+        setContentView(R.layout.activity_department);
+
+        //shows status bar at the top of the screen
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("My Requisitions");
+        //getSupportActionBar().setTitle("My Requisitions");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        //toggle open and close the menu drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -63,30 +69,37 @@ public class MyRequisitionsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //makes nav menu item show as selected
-        navigationView.getMenu().findItem(R.id.nav_my_requisitions).setChecked(true);
-        navigationView.getMenu().findItem(R.id.nav_my_requisitions).setActionView(null);
+        //navigationView.getMenu().findItem(R.id.nav_my_requisitions).setChecked(true);
+        //navigationView.getMenu().findItem(R.id.nav_my_requisitions).setActionView(null);
 
 
-
-        try {
-            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("loginDto"));
-
-            new Requisitions().execute(jsonObj.getString("EmployeeId"));
-
-            //hide nav menu items
-            //hideItem(jsonObj.getInt("RoleId"));
-
-//            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
-//            for (int i = 0; i < ja_Requisition.length(); i++) {
-//                JSONObject jsonR = ja_Requisition.getJSONObject(i);
-//                requisitions.add(0, new Requisition(jsonR.getString("Id"),
-//                        jsonR.getString("DateTime").substring(0,10),
-//                        jsonR.getString("Status"),
-//                        null));
-//           }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new MyRequisitionsFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_my_requisitions);
         }
+
+
+
+//        try {
+//            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("loginDto"));
+//
+//            new Requisitions().execute(jsonObj.getString("EmployeeId"));
+//
+//            //hide nav menu items
+//            //hideItem(jsonObj.getInt("RoleId"));
+//
+////            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+////            for (int i = 0; i < ja_Requisition.length(); i++) {
+////                JSONObject jsonR = ja_Requisition.getJSONObject(i);
+////                requisitions.add(0, new Requisition(jsonR.getString("Id"),
+////                        jsonR.getString("DateTime").substring(0,10),
+////                        jsonR.getString("Status"),
+////                        null));
+////           }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
 
 //        title = new String[]{"Battery", "Cpu", "Display", "Memory", "Sensor", "Memory", "Sensor"};
@@ -130,6 +143,7 @@ public class MyRequisitionsActivity extends AppCompatActivity
 
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView)myActionMenuItem.getActionView();
+        searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -211,67 +225,69 @@ public class MyRequisitionsActivity extends AppCompatActivity
     }
 
 
-    public class Requisitions extends AsyncTask<String, Void, List<Requisition>> {
-        @Override
-        protected List<Requisition> doInBackground(String... strings) {
-            String empId = strings[0];
-
-            OkHttpClient okHttpClient = new OkHttpClient();
-
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(5, TimeUnit.MINUTES) // connect timeout
-                    .writeTimeout(5, TimeUnit.MINUTES) // write timeout
-                    .readTimeout(5, TimeUnit.MINUTES); // read timeout
-
-            okHttpClient = builder.build();
-
-
-            //posts the requests
-            Request request = new Request.Builder()
-                    .url(url_Login+"/"+empId)
-                    .build();
-
-            Response response;
-
-            //executes the response and receives the response creates a JSON object from the
-            //response string and uses the roleId to generate the next Activity page
-            try{
-                response = okHttpClient.newCall(request).execute();
-                if(response.isSuccessful() ){
-                    String result = response.body().string();
-                    if(result != null && !result.equalsIgnoreCase("null")){
-                        JSONObject jsonObj = new JSONObject(result);
-
-                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
-                        for (int i = 0; i < ja_Requisition.length(); i++) {
-                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
-                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
-                                    jsonR.getString("DateTime").substring(0, 10),
-                                    jsonR.getString("Status"),
-                                    null));
-                        }
-
-
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
-            return requisitions;
-        }
-
-
-        protected void onPostExecute(List<Requisition> p) {
-
-            //pass results to listViewAdapter class
-            adapter = new ListViewAdapter(MyRequisitionsActivity.this, p);
-
-            //bind the adapter to the listview
-            listView.setAdapter(adapter);
-        }
-
-    }
+//    public class Requisitions extends AsyncTask<String, Void, List<Requisition>> {
+//        @Override
+//        protected List<Requisition> doInBackground(String... strings) {
+//            String empId = strings[0];
+//
+//            OkHttpClient okHttpClient = new OkHttpClient();
+//
+//            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//            builder.connectTimeout(5, TimeUnit.MINUTES) // connect timeout
+//                    .writeTimeout(5, TimeUnit.MINUTES) // write timeout
+//                    .readTimeout(5, TimeUnit.MINUTES); // read timeout
+//
+//            okHttpClient = builder.build();
+//
+//
+//            //posts the requests
+//            Request request = new Request.Builder()
+//                    .url(url_Login+"/"+empId)
+//                    .build();
+//
+//            Response response;
+//
+//            //executes the response and receives the response creates a JSON object from the
+//            //response string and uses the roleId to generate the next Activity page
+//            try{
+//                response = okHttpClient.newCall(request).execute();
+//                if(response.isSuccessful() ){
+//                    String result = response.body().string();
+//                    if(result != null && !result.equalsIgnoreCase("null")){
+//                        RequisitionsDTO requisition = new Gson().fromJson(result, RequisitionsDTO.class);
+//
+//                        JSONObject jsonObj = new JSONObject(result);
+//
+//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+//                        for (int i = 0; i < ja_Requisition.length(); i++) {
+//                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
+//                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
+//                                    jsonR.getString("DateTime").substring(0, 10),
+//                                    jsonR.getString("Status"),
+//                                    null));
+//                        }
+//
+//
+//                    }
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//
+//
+//            return requisitions;
+//        }
+//
+//
+//        protected void onPostExecute(List<Requisition> p) {
+//
+//            //pass results to listViewAdapter class
+//            adapter = new ListViewAdapter(DepartmentActivity.this, p);
+//
+//            //bind the adapter to the listview
+//            listView.setAdapter(adapter);
+//        }
+//
+//    }
 
 }
