@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,15 +21,15 @@ public class ListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private List<Requisition> requisitionlList;
+    private List<Requisition> requisitionList;
     private ArrayList<Requisition> arrayList;
 
-    public ListViewAdapter(Context context, List<Requisition> requisitionlList) {
+    public ListViewAdapter(Context context, List<Requisition> requisitionList) {
         mContext = context;
-        this.requisitionlList = requisitionlList;
+        this.requisitionList = requisitionList;
         inflater = LayoutInflater.from(mContext);
-        this.arrayList = new ArrayList<Requisition>();
-        this.arrayList.addAll(requisitionlList);
+        arrayList = new ArrayList<>();
+        arrayList.addAll(requisitionList);
     }
 
     public class ViewHolder{
@@ -35,12 +38,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return requisitionlList.size();
+        return requisitionList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return requisitionlList.get(position);
+        return requisitionList.get(position);
     }
 
     @Override
@@ -68,25 +71,31 @@ public class ListViewAdapter extends BaseAdapter {
 //        }
 
         //set the results into textViews
-        holder.mIdTv.setText(requisitionlList.get(position).getId());
-        holder.mDateTv.setText(requisitionlList.get(position).getDate());
-        holder.mStatusTv.setText(requisitionlList.get(position).getStatus());
+        holder.mIdTv.setText(requisitionList.get(position).getId());
+        holder.mDateTv.setText(requisitionList.get(position).getDate());
+        holder.mStatusTv.setText(requisitionList.get(position).getStatus());
 
         //listView item clicks
         view.setTag(position);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
                 //code later
-                Intent intent = new Intent(mContext, RequisitionDetailsActivity.class);
-                Intent jsonObj = ((MyRequisitionsActivity)view.getContext()).getIntent();
+//                Intent intent = new Intent(mContext, RequisitionDetailsFragment.class);
+//                Intent jsonObj = ((DepartmentActivity)view.getContext()).getIntent();
 
 //                intent.putExtra("requisitionList", jsonObj.toString());
-//                intent.putExtra("requisitionDetail", requisitionlList.get((Integer)view.getTag()).getRequisitionDetail().toString());
+//                intent.putExtra("requisitionDetail", requisitionList.get((Integer)view.getTag()).getRequisitionDetail().toString());
 
-                mContext.startActivity(intent);
-            }
-        });
+//                mContext.startActivity(intent);
+
+//                Fragment detail = new RequisitionDetailsFragment();
+//                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new RequisitionDetailsFragment()).commit();
+
+//            }
+//        });
 
         return view;
     }
@@ -94,15 +103,15 @@ public class ListViewAdapter extends BaseAdapter {
     //filter
     public void filter(String charText){
         charText = charText.toLowerCase(Locale.getDefault());
-        requisitionlList.clear();
+        requisitionList.clear();
         if (charText.length()==0){
-            requisitionlList.addAll(arrayList);
+            requisitionList.addAll(arrayList);
         }
         else{
             for(Requisition requisition : arrayList) {
                 if(requisition.getId().toLowerCase(Locale.getDefault()).contains(charText) ||
                         requisition.getDate().toLowerCase(Locale.getDefault()).contains(charText)){
-                    requisitionlList.add(requisition);
+                    requisitionList.add(requisition);
                 }
             }
         }

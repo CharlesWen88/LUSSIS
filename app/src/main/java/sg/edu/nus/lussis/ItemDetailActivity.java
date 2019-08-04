@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
  * An activity representing a single Item detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link MyRequisitionsActivity}.
+ * in a {@link DepartmentActivity}.
  */
 public class ItemDetailActivity extends AppCompatActivity {
 
@@ -63,7 +63,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            Intent intent = new Intent(this, MyRequisitionsActivity.class);
+            Intent intent = new Intent(this, DepartmentActivity.class);
             Intent jsonObj = this.getIntent();
             intent.putExtra("requisitionList", jsonObj.toString());
 

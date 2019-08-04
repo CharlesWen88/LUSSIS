@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="sg.edu.nus.lussis">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyRequisitionsActivity"
+            android:name=".DepartmentActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,14 +34,13 @@
         <activity
             android:name=".ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".MyRequisitionsActivity"
+            android:parentActivityName=".DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.MyRequisitionsActivity" />
+                android:value="sg.edu.nus.lussis.DepartmentActivity" />
         </activity>
-        <activity android:name=".RequisitionDetailsActivity"
-            android:parentActivityName=".MyRequisitionsActivity"/>
+
     </application>
 
 </manifest>

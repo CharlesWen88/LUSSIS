@@ -91,28 +91,28 @@ public class LoginActivity extends AppCompatActivity {
                             switch (role){
                                 case 1:
                                 case 4:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     i.putExtra("loginDto", jsonObj.toString());
                                     startActivity(i);
                                     break;
                                 case 2:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     startActivity(i);
                                     break;
                                 case 3:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     startActivity(i);
                                     break;
                                 case 5:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     startActivity(i);
                                     break;
                                 case 6:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     startActivity(i);
                                     break;
                                 default:
-                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
                                     startActivity(i);
                                     break;
                             }

@@ -20,7 +20,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_my_requisitions_drawer"
+        app:menu="@menu/department_drawer"
         android:theme="@style/ThemeOverlay.AppCompat.Light"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
