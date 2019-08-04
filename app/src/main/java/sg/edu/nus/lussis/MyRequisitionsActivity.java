@@ -1,27 +1,21 @@
 package sg.edu.nus.lussis;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import android.view.LayoutInflater;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.SearchView;
 
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,15 +23,27 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import sg.edu.nus.lussis.Model.Requisition;
-import sg.edu.nus.lussis.Model.RequisitionDetail;
-import sg.edu.nus.lussis.dummy.DummyContent;
 
 public class MyRequisitionsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private boolean mTwoPane;
+    ListView listView;
+    ListViewAdapter adapter;
+
+    List<Requisition> requisitions = new ArrayList<>();
+
+    //Navigation menu
+    NavigationView navigationView;
+
+    final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class MyRequisitionsActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("My Requisitions");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -55,114 +62,96 @@ public class MyRequisitionsActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        //related to the item list
-        if (findViewById(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+        //makes nav menu item show as selected
+        navigationView.getMenu().findItem(R.id.nav_my_requisitions).setChecked(true);
+        navigationView.getMenu().findItem(R.id.nav_my_requisitions).setActionView(null);
 
-        List<Requisition> requisitions = new ArrayList<>();
+
+
         try {
-            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("requisitionList"));
-            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
-            for (int i = 0; i<ja_Requisition.length(); i++){
-                JSONObject jsonR = ja_Requisition.getJSONObject(i);
-                requisitions.add(new Requisition(jsonR.getString("Id"),
-                        jsonR.getString("DateTime"),
-                        jsonR.getString("Status"),
-                        jsonR.getJSONArray("RequisitionDetails")));
-            }
+            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("loginDto"));
+
+            new Requisitions().execute(jsonObj.getString("EmployeeId"));
+
+            //hide nav menu items
+            //hideItem(jsonObj.getInt("RoleId"));
+
+//            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+//            for (int i = 0; i < ja_Requisition.length(); i++) {
+//                JSONObject jsonR = ja_Requisition.getJSONObject(i);
+//                requisitions.add(0, new Requisition(jsonR.getString("Id"),
+//                        jsonR.getString("DateTime").substring(0,10),
+//                        jsonR.getString("Status"),
+//                        null));
+//           }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
-        View recyclerView = findViewById(R.id.item_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+//        title = new String[]{"Battery", "Cpu", "Display", "Memory", "Sensor", "Memory", "Sensor"};
+//        description = new String[]{"Battery detail...", "Cpu detail...", "Display detail...", "Memory detail...", "Sensor detail...", "Memory detail...", "Sensor detail..."};
+//        icon = new int[]{R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera};
+
+        listView = findViewById(R.id.myRequisitionListView);
+//
+////        for (int i =0; i<title.length; i++){
+////            Model model = new Model(title[i], description[i], icon[i]);
+////            //bind all strings in an array
+////            arrayList.add(model);
+////        }
+//
+//        //pass results to listViewAdapter class
+//        adapter = new ListViewAdapter(this, requisitions);
+//
+//        //bind the adapter to the listview
+//        listView.setAdapter(adapter);
+//
+//        listView = findViewById(R.id.myRequisitionListView);
+
+
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+
+    private void hideItem(int i)
+    {
+        navigationView = findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        if(i != 1 && i !=4)
+            nav_Menu.findItem(R.id.nav_pending_requisitions).setVisible(false);
+        if(i != 3)
+            nav_Menu.findItem(R.id.nav_disbursement).setVisible(false);
     }
 
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final MyRequisitionsActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView)myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
-                    ItemDetailFragment fragment = new ItemDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
-                    Intent jsonObj = ((MyRequisitionsActivity)view.getContext()).getIntent();
-                    intent.putExtra("requisitionList", jsonObj.toString());
-
-                    context.startActivity(intent);
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (TextUtils.isEmpty(s)){
+                    adapter.filter("");
+                    listView.clearTextFilter();
                 }
+                else {
+                    adapter.filter(s);
+                }
+                return true;
             }
-        };
-
-        SimpleItemRecyclerViewAdapter(MyRequisitionsActivity parent,
-                                      List<DummyContent.DummyItem> items,
-                                      boolean twoPane) {
-            mValues = items;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
-            holder.mContentView2.setText(mValues.get(position).content2);
-
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
-            final TextView mContentView;
-            final TextView mContentView2;
-
-            ViewHolder(View view) {
-                super(view);
-                mIdView = view.findViewById(R.id.requisition_order);
-                mContentView = view.findViewById(R.id.requisition_date);
-                mContentView2 = view.findViewById(R.id.requisition_status);
-            }
-        }
+        });
+        return true;
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -203,18 +192,86 @@ public class MyRequisitionsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_my_requisitions) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_pending_requisitions) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_disbursement) {
 
-        } else if (id == R.id.nav_tools) {
-
+        } else if (id == R.id.nav_logout) {
+            //Goes back to login screen
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public class Requisitions extends AsyncTask<String, Void, List<Requisition>> {
+        @Override
+        protected List<Requisition> doInBackground(String... strings) {
+            String empId = strings[0];
+
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(5, TimeUnit.MINUTES) // connect timeout
+                    .writeTimeout(5, TimeUnit.MINUTES) // write timeout
+                    .readTimeout(5, TimeUnit.MINUTES); // read timeout
+
+            okHttpClient = builder.build();
+
+
+            //posts the requests
+            Request request = new Request.Builder()
+                    .url(url_Login+"/"+empId)
+                    .build();
+
+            Response response;
+
+            //executes the response and receives the response creates a JSON object from the
+            //response string and uses the roleId to generate the next Activity page
+            try{
+                response = okHttpClient.newCall(request).execute();
+                if(response.isSuccessful() ){
+                    String result = response.body().string();
+                    if(result != null && !result.equalsIgnoreCase("null")){
+                        JSONObject jsonObj = new JSONObject(result);
+
+                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+                        for (int i = 0; i < ja_Requisition.length(); i++) {
+                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
+                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
+                                    jsonR.getString("DateTime").substring(0, 10),
+                                    jsonR.getString("Status"),
+                                    null));
+                        }
+
+
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+            return requisitions;
+        }
+
+
+        protected void onPostExecute(List<Requisition> p) {
+
+            //pass results to listViewAdapter class
+            adapter = new ListViewAdapter(MyRequisitionsActivity.this, p);
+
+            //bind the adapter to the listview
+            listView.setAdapter(adapter);
+        }
+
+    }
+
 }

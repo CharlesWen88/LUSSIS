@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 import okhttp3.FormBody;
@@ -16,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import sg.edu.nus.lussis.Model.LoginDTO;
 
 public class LoginActivity extends AppCompatActivity {
 //class written by Charles
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
@@ -47,85 +51,87 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public class LoginUser extends AsyncTask<String, Void, String>{
-        @Override
-        protected String doInBackground(String... strings) {
-            String username = strings[0];
-            String password = strings[1];
+        public class LoginUser extends AsyncTask<String, Void, String>{
+            @Override
+            protected String doInBackground(String... strings) {
+                String username = strings[0];
+                String password = strings[1];
 
-            OkHttpClient okHttpClient = new OkHttpClient();
+                OkHttpClient okHttpClient = new OkHttpClient();
 
-            //adds username and password to the formbody
-            RequestBody formBody = new FormBody.Builder()
-                    .add("Username", username)
-                    .add("Password", password)
-                    .build();
+                //adds username and password to the formbody
+                RequestBody formBody = new FormBody.Builder()
+                        .add("Username", username)
+                        .add("Password", password)
+                        .build();
 
-            //posts the requests
-            Request request = new Request.Builder()
-                    .url(url_Login)
-                    .post(formBody)
-                    .build();
+                //posts the requests
+                Request request = new Request.Builder()
+                        .url(url_Login)
+                        .post(formBody)
+                        .build();
 
-            Response response;
+                Response response;
 
-            //executes the response and receives the response creates a JSON object from the
-            //response string and uses the roleId to generate the next Activity page
-            try{
-                response = okHttpClient.newCall(request).execute();
-                if(response.isSuccessful() ){
-                    String result = response.body().string();
-                    if(result != null && !result.equalsIgnoreCase("null")){
-                        JSONObject jsonObj = new JSONObject(result);
-                        int role = jsonObj.getInt("RoleId");
-                        Intent i;
-                        switch (role){
-                            case 1:
-                            case 4:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                i.putExtra("requisitionList", jsonObj.toString());
-                                startActivity(i);
-                                break;
-                            case 2:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                startActivity(i);
-                                break;
-                            case 3:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                startActivity(i);
-                                break;
-                            case 5:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                startActivity(i);
-                                break;
-                            case 6:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                startActivity(i);
-                                break;
-                            default:
-                                i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
-                                startActivity(i);
-                                break;
+                //executes the response and receives the response creates a JSON object from the
+                //response string and uses the roleId to generate the next Activity page
+                try{
+                    response = okHttpClient.newCall(request).execute();
+                    if(response.isSuccessful() ){
+                        String result = response.body().string();
+//                        String result = response.body().string().replace("\\", "");
+//                        result = result.substring(1,result.length()-1);
+                        if(result != null && !result.equalsIgnoreCase("null")){
+
+                            LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
+
+                            JSONObject jsonObj = new JSONObject(result);
+                            int role = jsonObj.getInt("RoleId");
+                            Intent i;
+                            switch (role){
+                                case 1:
+                                case 4:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    i.putExtra("loginDto", jsonObj.toString());
+                                    startActivity(i);
+                                    break;
+                                case 2:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    startActivity(i);
+                                    break;
+                                case 3:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    startActivity(i);
+                                    break;
+                                case 5:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    startActivity(i);
+                                    break;
+                                case 6:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    startActivity(i);
+                                    break;
+                                default:
+                                    i = new Intent(LoginActivity.this, MyRequisitionsActivity.class);
+                                    startActivity(i);
+                                    break;
+                            }
+                            finish();
+
+                        }else{
+                            openLoginErrorDialog();
                         }
-                        finish();
-
-                    }else{
-                        openLoginErrorDialog();
-
-//                        Toast.makeText(LoginActivity.this,
-//                                "Wrong UserName or Password",Toast.LENGTH_SHORT).show();
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-            }catch (Exception e){
-                e.printStackTrace();
+
+                return null;
             }
-
-
-            return null;
         }
-    }
 
     private void openLoginErrorDialog() {
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
         LoginErrorDialog loginErrorDialog = new LoginErrorDialog();
         loginErrorDialog.show(getSupportFragmentManager(), "dialog");
     }
