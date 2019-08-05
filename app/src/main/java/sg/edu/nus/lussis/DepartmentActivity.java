@@ -1,7 +1,6 @@
 package sg.edu.nus.lussis;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -10,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,27 +17,17 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import sg.edu.nus.lussis.Model.Requisition;
-import sg.edu.nus.lussis.Model.RequisitionsDTO;
 
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listView;
-    ListViewAdapter adapter;
+    MyRequisitionsListViewAdapter adapter;
 
     List<Requisition> requisitions = new ArrayList<>();
 
@@ -56,6 +46,12 @@ public class DepartmentActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         //getSupportActionBar().setTitle("My Requisitions");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -115,7 +111,7 @@ public class DepartmentActivity extends AppCompatActivity
 ////        }
 //
 //        //pass results to listViewAdapter class
-//        adapter = new ListViewAdapter(this, requisitions);
+//        adapter = new MyRequisitionsListViewAdapter(this, requisitions);
 //
 //        //bind the adapter to the listview
 //        listView.setAdapter(adapter);
@@ -175,6 +171,12 @@ public class DepartmentActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ){
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 //    @Override
@@ -207,7 +209,9 @@ public class DepartmentActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_my_requisitions) {
-            // Handle the camera action
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new MyRequisitionsFragment()).commit();
+
         } else if (id == R.id.nav_pending_requisitions) {
 
         } else if (id == R.id.nav_disbursement) {
@@ -282,7 +286,7 @@ public class DepartmentActivity extends AppCompatActivity
 //        protected void onPostExecute(List<Requisition> p) {
 //
 //            //pass results to listViewAdapter class
-//            adapter = new ListViewAdapter(DepartmentActivity.this, p);
+//            adapter = new MyRequisitionsListViewAdapter(DepartmentActivity.this, p);
 //
 //            //bind the adapter to the listview
 //            listView.setAdapter(adapter);

@@ -4,44 +4,44 @@ import java.util.List;
 
 public class Requisitions {
 
-    private int Id;
-    private int EmployeeId;
+    private String Id;
+    private String EmployeeId;
     private String DateTime;
     private String status;
     private String Remarks;
     private List<RequisitionsDetails> RequisitionDetails;
 
-    public Requisitions(int id, int employeeId, String dateTime, String status, String remarks, List<RequisitionsDetails> requisitionDetails) {
+    public Requisitions(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionsDetails> requisitionDetails) {
         Id = id;
         EmployeeId = employeeId;
-        DateTime = dateTime;
+        DateTime = dateTime.substring(0,10);
         this.status = status;
         Remarks = remarks;
         RequisitionDetails = requisitionDetails;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return EmployeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(String employeeId) {
         EmployeeId = employeeId;
     }
 
     public String getDateTime() {
-        return DateTime;
+        return DateTime.substring(0,10);
     }
 
     public void setDateTime(String dateTime) {
-        DateTime = dateTime;
+        DateTime = dateTime.substring(0,10);
     }
 
     public String getStatus() {

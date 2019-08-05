@@ -1,30 +1,26 @@
 package sg.edu.nus.lussis;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import sg.edu.nus.lussis.Model.Requisition;
+import sg.edu.nus.lussis.Model.Requisitions;
 
-public class ListViewAdapter extends BaseAdapter {
+public class MyRequisitionsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private List<Requisition> requisitionList;
-    private ArrayList<Requisition> arrayList;
+    private List<Requisitions> requisitionList;
+    private ArrayList<Requisitions> arrayList;
 
-    public ListViewAdapter(Context context, List<Requisition> requisitionList) {
+    public MyRequisitionsListViewAdapter(Context context, List<Requisitions> requisitionList) {
         mContext = context;
         this.requisitionList = requisitionList;
         inflater = LayoutInflater.from(mContext);
@@ -72,7 +68,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         //set the results into textViews
         holder.mIdTv.setText(requisitionList.get(position).getId());
-        holder.mDateTv.setText(requisitionList.get(position).getDate());
+        holder.mDateTv.setText(requisitionList.get(position).getDateTime());
         holder.mStatusTv.setText(requisitionList.get(position).getStatus());
 
         //listView item clicks
@@ -81,7 +77,7 @@ public class ListViewAdapter extends BaseAdapter {
 //            @Override
 //            public void onClick(View view) {
                 //code later
-//                Intent intent = new Intent(mContext, RequisitionDetailsFragment.class);
+//                Intent intent = new Intent(mContext, RequisitionDetailsActivity.class);
 //                Intent jsonObj = ((DepartmentActivity)view.getContext()).getIntent();
 
 //                intent.putExtra("requisitionList", jsonObj.toString());
@@ -89,10 +85,10 @@ public class ListViewAdapter extends BaseAdapter {
 
 //                mContext.startActivity(intent);
 
-//                Fragment detail = new RequisitionDetailsFragment();
+//                Fragment detail = new RequisitionDetailsActivity();
 //                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
 //                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new RequisitionDetailsFragment()).commit();
+//                        new RequisitionDetailsActivity()).commit();
 
 //            }
 //        });
@@ -108,9 +104,9 @@ public class ListViewAdapter extends BaseAdapter {
             requisitionList.addAll(arrayList);
         }
         else{
-            for(Requisition requisition : arrayList) {
+            for(Requisitions requisition : arrayList) {
                 if(requisition.getId().toLowerCase(Locale.getDefault()).contains(charText) ||
-                        requisition.getDate().toLowerCase(Locale.getDefault()).contains(charText)){
+                        requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText)){
                     requisitionList.add(requisition);
                 }
             }
