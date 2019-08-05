@@ -6,27 +6,27 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.Model.Requisition;
+import sg.edu.nus.lussis.Model.Disbursement;
 
-public class RequisitionDetailsActivity extends AppCompatActivity {
+public class DisbursementDetailsActivity extends AppCompatActivity {
 
-    TextView tvId, tvDate, tvStatus;
+    TextView tvLocation, tvDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_requisition_details);
+        setContentView(R.layout.activity_disbursement_details);
 
         //shows status bar at the top of the screen
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        Toolbar toolbar = findViewById(R.id.requisition_details_toolbar);
+        Toolbar toolbar = findViewById(R.id.disbursement_details_toolbar);
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
@@ -35,25 +35,23 @@ public class RequisitionDetailsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String details = intent.getStringExtra("details");
-        Requisition req = new Gson().fromJson(details, Requisition.class);
+        Disbursement disbursement = new Gson().fromJson(details, Disbursement.class);
 
-        tvId = findViewById(R.id.rd_form_id);
-        tvDate = findViewById(R.id.rd_date);
-        tvStatus = findViewById(R.id.rd_status);
+        tvLocation = findViewById(R.id.dd_location);
+        tvDate = findViewById(R.id.dd_date);
 
-        tvId.setText(req.getId());
-        tvDate.setText(req.getDateTime());
-        tvStatus.setText(req.getStatus());
+        tvLocation.setText(disbursement.getCollectionPoint());
+        tvDate.setText(disbursement.getDeliveryDateTime());
 
-        RequisitionDetailsListViewAdapter adapter = new RequisitionDetailsListViewAdapter(this, req.getRequisitionDetails());
+        DisbursementDetailsListViewAdapter adapter = new DisbursementDetailsListViewAdapter(this, disbursement.getRequisitionDetails());
 
         ListView listView = findViewById(R.id.listView);
         //bind the adapter to the listview
         listView.setAdapter(adapter);
     }
+
 
 }

@@ -71,28 +71,6 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
         holder.tvDate.setText(requisitionList.get(position).getDateTime());
         holder.tvStatus.setText(requisitionList.get(position).getStatus());
 
-        //listView item clicks
-        view.setTag(position);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-                //code later
-//                Intent intent = new Intent(mContext, RequisitionDetailsActivity.class);
-//                Intent jsonObj = ((DepartmentActivity)view.getContext()).getIntent();
-
-//                intent.putExtra("requisitionList", jsonObj.toString());
-//                intent.putExtra("requisitionDetail", requisitionList.get((Integer)view.getTag()).getRequisitionDetail().toString());
-
-//                mContext.startActivity(intent);
-
-//                Fragment detail = new RequisitionDetailsActivity();
-//                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new RequisitionDetailsActivity()).commit();
-
-//            }
-//        });
-
         return view;
     }
 

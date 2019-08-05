@@ -11,20 +11,20 @@ import java.util.List;
 
 import sg.edu.nus.lussis.Model.RequisitionDetails;
 
-public class RequisitionDetailsListViewAdapter extends BaseAdapter {
+public class DisbursementDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<RequisitionDetails> detailsList;
 
-    public RequisitionDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
+    public DisbursementDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.detailsList = detailsList;
     }
 
     public class ViewHolder{
-        TextView tvName, tvQuantity, tvStatus;
+        TextView tvSN, tvName, tvQuantity;
     }
 
     @Override
@@ -44,26 +44,26 @@ public class RequisitionDetailsListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        DisbursementDetailsListViewAdapter.ViewHolder holder;
         if (convertView==null){
-            holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.requisition_details_list_content, null);
+            holder = new DisbursementDetailsListViewAdapter.ViewHolder();
+            convertView = inflater.inflate(R.layout.disbursement_details_list_content, null);
 
             //locate the views in xml file
-            holder.tvName = convertView.findViewById(R.id.rd_name);
-            holder.tvQuantity = convertView.findViewById(R.id.rd_quantity);
-            holder.tvStatus = convertView.findViewById(R.id.rd_status2);
+            holder.tvSN = convertView.findViewById(R.id.dd_sn);
+            holder.tvName = convertView.findViewById(R.id.dd_name);
+            holder.tvQuantity = convertView.findViewById(R.id.dd_quantity);
 
             convertView.setTag(holder);
         }
         else {
-            holder = (ViewHolder)convertView.getTag();
+            holder = (DisbursementDetailsListViewAdapter.ViewHolder)convertView.getTag();
         }
 
         //set the results into textViews
+        holder.tvSN.setText(String.valueOf(position));
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
-        holder.tvQuantity.setText(detailsList.get(position).getQuantityOrdered());
-        holder.tvStatus.setText(detailsList.get(position).getStatus());
+        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
 
         return convertView;
     }

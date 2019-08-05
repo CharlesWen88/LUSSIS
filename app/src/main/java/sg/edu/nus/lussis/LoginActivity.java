@@ -1,9 +1,6 @@
 package sg.edu.nus.lussis;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -91,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                     response = okHttpClient.newCall(request).execute();
                     if(response.isSuccessful() ){
                         String result = response.body().string();
-//                        String result = response.body().string().replace("\\", "");
-//                        result = result.substring(1,result.length()-1);
                         if(result != null && !result.equalsIgnoreCase("null")){
 
                             LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
@@ -100,47 +95,12 @@ public class LoginActivity extends AppCompatActivity {
                             Intent i;
 
                             if(Integer.valueOf(login.getRoleId())<5)
-                            {
                                 i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                            }
                             else
-                            {
                                 i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                            }
                             i.putExtra("loginDto", (new Gson()).toJson(login));
                             startActivity(i);
 
-//                            JSONObject jsonObj = new JSONObject(result);
-//                            int role = jsonObj.getInt("RoleId");
-//
-//                            switch (role){
-//                                case 1:
-//                                case 4:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    i.putExtra("loginDto", jsonObj.toString());
-//                                    startActivity(i);
-//                                    break;
-//                                case 2:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    startActivity(i);
-//                                    break;
-//                                case 3:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    startActivity(i);
-//                                    break;
-//                                case 5:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    startActivity(i);
-//                                    break;
-//                                case 6:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    startActivity(i);
-//                                    break;
-//                                default:
-//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-//                                    startActivity(i);
-//                                    break;
-//                            }
                             finish();
 
                         }else{
@@ -176,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                 btnLogin.setEnabled(false);
                 btnLogin.setBackgroundResource(R.drawable.button_login_default);
             }
-
 
         }
 

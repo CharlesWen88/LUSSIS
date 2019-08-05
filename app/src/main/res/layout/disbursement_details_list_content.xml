@@ -8,32 +8,32 @@
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/rd_name"
+        android:id="@+id/dd_sn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Item Name"
+        android:layout_weight="0.5"
+        android:text="S/N"
         android:textSize="16sp"
         android:gravity="start"/>
 
     <TextView
-        android:id="@+id/rd_quantity"
+        android:id="@+id/dd_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
+        android:text="Item Name"
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/dd_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
         android:text="Quantity"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_marginStart="20dp"/>
-
-    <TextView
-        android:id="@+id/rd_status2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Status"
-        android:textSize="16sp"
-        android:gravity="end"
         android:layout_marginEnd="10dp"/>
 
 </LinearLayout>

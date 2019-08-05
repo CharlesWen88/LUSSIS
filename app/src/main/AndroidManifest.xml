@@ -37,6 +37,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="sg.edu.nus.lussis.DepartmentActivity" />
         </activity>
+        <activity
+            android:name=".DisbursementDetailsActivity"
+            android:label="Disbursement Details"
+            android:parentActivityName=".DepartmentActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sg.edu.nus.lussis.DepartmentActivity" />
+        </activity>
 
     </application>
 

@@ -26,29 +26,28 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sg.edu.nus.lussis.Model.Requisition;
-import sg.edu.nus.lussis.Model.RequisitionsDTO;
+import sg.edu.nus.lussis.Model.Disbursement;
 
-public class MyRequisitionsFragment extends Fragment {
+public class DisbursementListFragment extends Fragment {
 
     private ListView listView;
-    private MyRequisitionsListViewAdapter adapter;
+    private DisbursementListViewAdapter adapter;
 
-    private final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
-    private List<Requisition> requisitions = new ArrayList<>();
+    private final String url_Login = "http://10.0.2.2:56287/api/mobileDisbursement";
+    private List<Disbursement> disbursements = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
 
-        getActivity().setTitle("My Requisitions");
+        getActivity().setTitle("Disbursement List");
 
         try {
             //retrieves the intent from previous activity to get the employeeId
             JSONObject jsonObj = new JSONObject(getActivity().getIntent().getStringExtra("loginDto"));
 
-            new GetRequisitions().execute(jsonObj.getString("EmployeeId"));
+            new GetDisbursements().execute(jsonObj.getString("EmployeeId"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -57,9 +56,9 @@ public class MyRequisitionsFragment extends Fragment {
         return view;
     }
 
-    public class GetRequisitions extends AsyncTask<String, Void, List<Requisition>> {
+    public class GetDisbursements extends AsyncTask<String, Void, List<Disbursement>> {
         @Override
-        protected List<Requisition> doInBackground(String... strings) {
+        protected List<Disbursement> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -73,46 +72,36 @@ public class MyRequisitionsFragment extends Fragment {
 
             //posts the requests
             Request request = new Request.Builder()
-                    .url(url_Login+"/"+empId)
+                    .url(url_Login + "/" + empId)
                     .build();
 
             Response response;
 
             //executes the response and receives the response creates a JSON object from the
             //response string and uses the roleId to generate the next Activity page
-            try{
+            try {
                 response = okHttpClient.newCall(request).execute();
-                if(response.isSuccessful() ){
+                if (response.isSuccessful()) {
                     String result = response.body().string();
-                    if(result != null && !result.equalsIgnoreCase("null")){
-                        RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
-
-                        requisitions = req.getRequisitions();
-                        Collections.reverse(requisitions);
-
-//                        JSONObject jsonObj = new JSONObject(result);
+                    if (result != null && !result.equalsIgnoreCase("null")) {
+//                        disbursements = new Gson().fromJson(result, RequisitionsDTO.class);
 //
-//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisition");
-//                        for (int i = 0; i < ja_Requisition.length(); i++) {
-//                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
-//                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
-//                                    jsonR.getString("DateTime").substring(0, 10),
-//                                    jsonR.getString("Status"),
-//                                    null));
-//                        }
+//                        disbursements = req.getRequisitions();
+                        Collections.reverse(disbursements);
+
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return requisitions;
+            return disbursements;
         }
 
-        protected void onPostExecute(final List<Requisition> reqList) {
+        protected void onPostExecute(final List<Disbursement> disbursements) {
 
             //pass results to listViewAdapter class
-            adapter = new MyRequisitionsListViewAdapter(getActivity(), reqList);
+            adapter = new DisbursementListViewAdapter(getActivity(), disbursements);
 
             listView = getView().findViewById(R.id.listView);
             //bind the adapter to the listview
@@ -123,17 +112,8 @@ public class MyRequisitionsFragment extends Fragment {
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int position, long id) {
 
-//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                            new RequisitionDetailsActivity()).addToBackStack(null).commit();
-
-
-                    // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
-
-//                    System.out.println("=========== Click");
-//                    bean = (ActivitiesBean) adapter.getItem(position);
-//
-                    Intent i = new Intent(getActivity(), RequisitionDetailsActivity.class);
-                    i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
+                    Intent i = new Intent(getActivity(), DisbursementDetailsActivity.class);
+                    i.putExtra("details", (new Gson()).toJson(disbursements.get(position)));
                     String login = getActivity().getIntent().getStringExtra("loginDto");
                     i.putExtra("loginDto", login);
                     startActivity(i);
@@ -141,8 +121,5 @@ public class MyRequisitionsFragment extends Fragment {
             });
 
         }
-
     }
-
-
 }
