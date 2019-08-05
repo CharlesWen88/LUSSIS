@@ -3,8 +3,11 @@ package sg.edu.nus.lussis;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,14 +31,21 @@ public class LoginActivity extends AppCompatActivity {
 
     final String url_Login = "http://10.0.2.2:56287/api/mobilelogin";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         etUsername = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.login);
+
+        etUsername.addTextChangedListener(loginTextWatcher);
+        etPassword.addTextChangedListener(loginTextWatcher);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                 new LoginUser().execute(username, password);
             }
         });
+
+
 
     }
 
@@ -129,6 +141,37 @@ public class LoginActivity extends AppCompatActivity {
                 return null;
             }
         }
+
+    private TextWatcher loginTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String usernameInput = etUsername.getText().toString().trim();
+            String passwordInput = etPassword.getText().toString().trim();
+
+            if(!usernameInput.isEmpty() && !passwordInput.isEmpty())
+            {
+                btnLogin.setEnabled(true);
+                btnLogin.setBackgroundResource(R.drawable.button_login);
+            }
+            else
+            {
+                btnLogin.setEnabled(false);
+                btnLogin.setBackgroundResource(R.drawable.button_login_default);
+            }
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     private void openLoginErrorDialog() {
         findViewById(R.id.loadingPanel).setVisibility(View.GONE);

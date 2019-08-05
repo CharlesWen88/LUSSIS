@@ -42,11 +42,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/button_login"
+            android:background="@drawable/button_login_default"
             android:ems="10"
             android:text="Login"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:enabled="false"/>
 
     </LinearLayout>
 
