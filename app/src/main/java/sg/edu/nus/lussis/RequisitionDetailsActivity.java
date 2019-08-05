@@ -2,16 +2,21 @@ package sg.edu.nus.lussis;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
+import sg.edu.nus.lussis.Model.Requisition;
+
 public class RequisitionDetailsActivity extends AppCompatActivity {
+
+    TextView tvId, tvDate, tvStatus;
 
         @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,19 @@ public class RequisitionDetailsActivity extends AppCompatActivity {
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
+        String details = intent.getStringExtra("details");
+        Requisition req = new Gson().fromJson(details, Requisition.class);
+
+        tvId = findViewById(R.id.rd_form_id);
+        tvDate = findViewById(R.id.rd_date);
+        tvStatus = findViewById(R.id.rd_status);
+
+        tvId.setText(req.getId());
+        tvDate.setText(req.getDateTime());
+        tvStatus.setText(req.getStatus());
+
+
+
 //        String mActionBarTitle = intent.getStringExtra("actionBarTitle");
 //        String mContent = intent.getStringExtra("contentTv");
 
@@ -43,28 +61,13 @@ public class RequisitionDetailsActivity extends AppCompatActivity {
         //set text in textview
 //        mDetailTv.setText(mContent);
 
+
+        RequisitionDetailsListViewAdapter adapter = new RequisitionDetailsListViewAdapter(this, req.getRequisitionDetails());
+//
+        ListView listView = findViewById(R.id.listView);
+//        //bind the adapter to the listview
+        listView.setAdapter(adapter);
+
     }
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == android.R.id.home) {
-//            // This ID represents the Home or Up button. In the case of this
-//            // activity, the Up button is shown. For
-//            // more details, see the Navigation pattern on Android Design:
-//            //
-//            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-//            //
-//            Intent intent = new Intent(this, DepartmentActivity.class);
-//            String login = this.getIntent().getStringExtra("loginDto");
-//            intent.putExtra("loginDto", login);
-//
-//            navigateUpTo(intent);
-//
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
 }

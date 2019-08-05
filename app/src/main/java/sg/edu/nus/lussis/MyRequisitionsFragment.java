@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sg.edu.nus.lussis.Model.Requisitions;
+import sg.edu.nus.lussis.Model.Requisition;
 import sg.edu.nus.lussis.Model.RequisitionsDTO;
 
 public class MyRequisitionsFragment extends Fragment {
@@ -35,7 +35,7 @@ public class MyRequisitionsFragment extends Fragment {
     private MyRequisitionsListViewAdapter adapter;
 
     private final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
-    private List<Requisitions> requisitions = new ArrayList<>();
+    private List<Requisition> requisitions = new ArrayList<>();
 
     @Nullable
     @Override
@@ -45,10 +45,10 @@ public class MyRequisitionsFragment extends Fragment {
         getActivity().setTitle("My Requisitions");
 
         try {
+            //retrieves the intent from previous activity to get the employeeId
             JSONObject jsonObj = new JSONObject(getActivity().getIntent().getStringExtra("loginDto"));
 
             new GetRequisitions().execute(jsonObj.getString("EmployeeId"));
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -58,10 +58,9 @@ public class MyRequisitionsFragment extends Fragment {
 
     }
 
-
-    public class GetRequisitions extends AsyncTask<String, Void, List<Requisitions>> {
+    public class GetRequisitions extends AsyncTask<String, Void, List<Requisition>> {
         @Override
-        protected List<sg.edu.nus.lussis.Model.Requisitions> doInBackground(String... strings) {
+        protected List<Requisition> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -72,7 +71,6 @@ public class MyRequisitionsFragment extends Fragment {
                     .readTimeout(5, TimeUnit.MINUTES); // read timeout
 
             okHttpClient = builder.build();
-
 
             //posts the requests
             Request request = new Request.Builder()
@@ -95,7 +93,7 @@ public class MyRequisitionsFragment extends Fragment {
 
 //                        JSONObject jsonObj = new JSONObject(result);
 //
-//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisition");
 //                        for (int i = 0; i < ja_Requisition.length(); i++) {
 //                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
 //                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
@@ -112,13 +110,12 @@ public class MyRequisitionsFragment extends Fragment {
             return requisitions;
         }
 
-
-        protected void onPostExecute(List<Requisitions> p) {
+        protected void onPostExecute(final List<Requisition> reqList) {
 
             //pass results to listViewAdapter class
-            adapter = new MyRequisitionsListViewAdapter(getActivity(), p);
+            adapter = new MyRequisitionsListViewAdapter(getActivity(), reqList);
 
-            listView = getView().findViewById(R.id.myRequisitionListView);
+            listView = getView().findViewById(R.id.listView);
             //bind the adapter to the listview
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,8 +134,9 @@ public class MyRequisitionsFragment extends Fragment {
 //                    bean = (ActivitiesBean) adapter.getItem(position);
 //
                     Intent i = new Intent(getActivity(), RequisitionDetailsActivity.class);
-//                    String login = getActivity().getIntent().getStringExtra("loginDto");
-//                    i.putExtra("loginDto", login);
+                    i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
+                    String login = getActivity().getIntent().getStringExtra("loginDto");
+                    i.putExtra("loginDto", login);
                     startActivity(i);
                 }
             });

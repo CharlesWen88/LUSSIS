@@ -5,9 +5,9 @@ import java.util.List;
 public class RequisitionsDTO {
 
     private LoginDTO LoginDTO;
-    private List<Requisitions> Requisitions;
+    private List<Requisition> Requisitions;
 
-    public RequisitionsDTO(sg.edu.nus.lussis.Model.LoginDTO loginDTO, List<Requisitions> requisitions) {
+    public RequisitionsDTO(LoginDTO loginDTO, List<Requisition> requisitions) {
         LoginDTO = loginDTO;
         Requisitions = requisitions;
     }
@@ -16,15 +16,15 @@ public class RequisitionsDTO {
         return LoginDTO;
     }
 
-    public void setLoginDTO(sg.edu.nus.lussis.Model.LoginDTO loginDTO) {
+    public void setLoginDTO(LoginDTO loginDTO) {
         LoginDTO = loginDTO;
     }
 
-    public List<Requisitions> getRequisitions() {
+    public List<Requisition> getRequisitions() {
         return Requisitions;
     }
 
-    public void setRequisitions(List<Requisitions> requisitions) {
+    public void setRequisitions(List<Requisition> requisitions) {
         Requisitions = requisitions;
     }
 }

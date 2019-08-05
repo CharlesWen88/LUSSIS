@@ -18,18 +18,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import sg.edu.nus.lussis.Model.Requisition;
-
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listView;
     MyRequisitionsListViewAdapter adapter;
-
-    List<Requisition> requisitions = new ArrayList<>();
 
     //Navigation menu
     NavigationView navigationView;
@@ -52,7 +45,7 @@ public class DepartmentActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        //getSupportActionBar().setTitle("My Requisitions");
+        //getSupportActionBar().setTitle("My Requisition");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -80,12 +73,12 @@ public class DepartmentActivity extends AppCompatActivity
 //        try {
 //            JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("loginDto"));
 //
-//            new Requisitions().execute(jsonObj.getString("EmployeeId"));
+//            new Requisition().execute(jsonObj.getString("EmployeeId"));
 //
 //            //hide nav menu items
 //            //hideItem(jsonObj.getInt("RoleId"));
 //
-////            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+////            JSONArray ja_Requisition = jsonObj.getJSONArray("Requisition");
 ////            for (int i = 0; i < ja_Requisition.length(); i++) {
 ////                JSONObject jsonR = ja_Requisition.getJSONObject(i);
 ////                requisitions.add(0, new Requisition(jsonR.getString("Id"),
@@ -102,7 +95,6 @@ public class DepartmentActivity extends AppCompatActivity
 //        description = new String[]{"Battery detail...", "Cpu detail...", "Display detail...", "Memory detail...", "Sensor detail...", "Memory detail...", "Sensor detail..."};
 //        icon = new int[]{R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera, R.drawable.ic_menu_camera};
 
-        listView = findViewById(R.id.myRequisitionListView);
 //
 ////        for (int i =0; i<title.length; i++){
 ////            Model model = new Model(title[i], description[i], icon[i]);
@@ -229,7 +221,7 @@ public class DepartmentActivity extends AppCompatActivity
     }
 
 
-//    public class Requisitions extends AsyncTask<String, Void, List<Requisition>> {
+//    public class Requisition extends AsyncTask<String, Void, List<Requisition>> {
 //        @Override
 //        protected List<Requisition> doInBackground(String... strings) {
 //            String empId = strings[0];
@@ -262,7 +254,7 @@ public class DepartmentActivity extends AppCompatActivity
 //
 //                        JSONObject jsonObj = new JSONObject(result);
 //
-//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisitions");
+//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisition");
 //                        for (int i = 0; i < ja_Requisition.length(); i++) {
 //                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
 //                            requisitions.add(0, new Requisition(jsonR.getString("Id"),

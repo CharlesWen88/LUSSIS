@@ -1,47 +1,70 @@
 package sg.edu.nus.lussis.Model;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 public class Requisition {
 
-    public final String id;
-    public final String date;
-    public final String status;
-    public final JSONArray requisitionDetail;
+    private String Id;
+    private String EmployeeId;
+    private String DateTime;
+    private String Status;
+    private String Remarks;
+    private List<RequisitionDetails> RequisitionDetails;
 
-    public Requisition(String id, String date, String status, JSONArray requisitionDetail) {
-        this.id = id;
-        this.date = date;
-        this.status = status;
-        this.requisitionDetail = requisitionDetail;
+    public Requisition(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionDetails> requisitionDetails) {
+        Id = id;
+        EmployeeId = employeeId;
+        DateTime = dateTime.substring(0,10);
+        this.Status = status;
+        Remarks = remarks;
+        RequisitionDetails = requisitionDetails;
     }
 
     public String getId() {
-        return id;
+        return Id;
     }
 
-    public String getDate() {
-        return date;
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getEmployeeId() {
+        return EmployeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        EmployeeId = employeeId;
+    }
+
+    public String getDateTime() {
+        return DateTime.substring(0,10);
+    }
+
+    public void setDateTime(String dateTime) {
+        DateTime = dateTime.substring(0,10);
     }
 
     public String getStatus() {
-        return status;
+        return Status;
     }
 
-    public JSONArray getRequisitionDetail() {
-        return requisitionDetail;
+    public void setStatus(String status) {
+        this.Status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Requisition{" +
-                "id='" + id + '\'' +
-                ", date='" + date + '\'' +
-                ", status='" + status + '\'' +
-                ", requisitionDetail=" + requisitionDetail +
-                '}';
+    public String getRemarks() {
+        return Remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        Remarks = remarks;
+    }
+
+    public List<RequisitionDetails> getRequisitionDetails() {
+        return RequisitionDetails;
+    }
+
+    public void setRequisitionDetails(List<RequisitionDetails> requisitionDetails) {
+        RequisitionDetails = requisitionDetails;
     }
 }
-

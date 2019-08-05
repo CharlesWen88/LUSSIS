@@ -19,6 +19,7 @@
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:text="Order"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
@@ -31,6 +32,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="end"
+            android:text="Date"
             android:textAppearance="?attr/textAppearanceListItem" />
 
     </LinearLayout>

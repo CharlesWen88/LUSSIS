@@ -97,37 +97,50 @@ public class LoginActivity extends AppCompatActivity {
 
                             LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
 
-                            JSONObject jsonObj = new JSONObject(result);
-                            int role = jsonObj.getInt("RoleId");
                             Intent i;
-                            switch (role){
-                                case 1:
-                                case 4:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    i.putExtra("loginDto", jsonObj.toString());
-                                    startActivity(i);
-                                    break;
-                                case 2:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    startActivity(i);
-                                    break;
-                                case 3:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    startActivity(i);
-                                    break;
-                                case 5:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    startActivity(i);
-                                    break;
-                                case 6:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    startActivity(i);
-                                    break;
-                                default:
-                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                                    startActivity(i);
-                                    break;
+
+                            if(Integer.valueOf(login.getRoleId())<5)
+                            {
+                                i = new Intent(LoginActivity.this, DepartmentActivity.class);
                             }
+                            else
+                            {
+                                i = new Intent(LoginActivity.this, DepartmentActivity.class);
+                            }
+                            i.putExtra("loginDto", (new Gson()).toJson(login));
+                            startActivity(i);
+
+//                            JSONObject jsonObj = new JSONObject(result);
+//                            int role = jsonObj.getInt("RoleId");
+//
+//                            switch (role){
+//                                case 1:
+//                                case 4:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    i.putExtra("loginDto", jsonObj.toString());
+//                                    startActivity(i);
+//                                    break;
+//                                case 2:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    startActivity(i);
+//                                    break;
+//                                case 3:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    startActivity(i);
+//                                    break;
+//                                case 5:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    startActivity(i);
+//                                    break;
+//                                case 6:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    startActivity(i);
+//                                    break;
+//                                default:
+//                                    i = new Intent(LoginActivity.this, DepartmentActivity.class);
+//                                    startActivity(i);
+//                                    break;
+//                            }
                             finish();
 
                         }else{

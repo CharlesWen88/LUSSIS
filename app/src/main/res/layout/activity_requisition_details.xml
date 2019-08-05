@@ -34,8 +34,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
@@ -66,7 +64,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginHorizontal="20dp">
 
                     <TextView
@@ -84,52 +81,6 @@
                         android:layout_weight="0.8"
                         android:textSize="18sp"
                         android:text="13/06/2019" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginHorizontal="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="Department: " />
-
-                    <TextView
-                        android:id="@+id/rd_department"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="Science" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginHorizontal="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="Employee: " />
-
-                    <TextView
-                        android:id="@+id/rd_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="David" />
 
                 </LinearLayout>
 
@@ -167,7 +118,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:gravity="center"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -195,7 +146,8 @@
                 <include
                     layout="@layout/listview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/requisition_details_list_content"/>
 
             </LinearLayout>
 
