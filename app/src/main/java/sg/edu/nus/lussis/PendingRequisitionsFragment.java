@@ -3,12 +3,17 @@ package sg.edu.nus.lussis;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +38,7 @@ import static sg.edu.nus.lussis.Util.Constants.URL;
 
 public class PendingRequisitionsFragment extends Fragment {
 
-    Button btnApprove, btnReject;
+    private Button btnApprove, btnReject;
 
     private ListView listView;
     private PendingRequisitionsListViewAdapter adapter;
@@ -47,7 +52,8 @@ public class PendingRequisitionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.listview, container, false);
 
         if(getActivity() != null)
-            getActivity().setTitle("My Requisitions");
+            getActivity().setTitle("Pending Requisitions");
+        setHasOptionsMenu(true);
 
         if(getView() != null) {
             btnApprove = getView().findViewById(R.id.approve);
@@ -96,9 +102,7 @@ public class PendingRequisitionsFragment extends Fragment {
                     String result = response.body().string();
                     if (!result.equalsIgnoreCase("null")) {
                         RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
-
                         requisitions = req.getRequisitions();
-
                     }
                 }
             } catch (Exception e) {
@@ -118,27 +122,13 @@ public class PendingRequisitionsFragment extends Fragment {
                 //bind the adapter to the listview
                 listView.setAdapter(adapter);
 
-                //move to PendingRequisitionsDetailsActivity later
-                LayoutInflater inflater = getLayoutInflater();
-                ViewGroup footerView = (ViewGroup) inflater.inflate(R.layout.pending_requisition_detail_footer, listView, false);
-                listView.addFooterView(footerView, null, false);
-
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int position, long id) {
 
-//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                            new RequisitionDetailsActivity()).addToBackStack(null).commit();
-
-
-                        // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
-
-//                    System.out.println("=========== Click");
-//                    bean = (ActivitiesBean) adapter.getItem(position);
-//
-                        Intent i = new Intent(getActivity(), RequisitionDetailsActivity.class);
+                        Intent i = new Intent(getActivity(), PendingRequisitionDetailsActivity.class);
                         i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
                         String login;
                         if(getActivity() != null) {
@@ -149,8 +139,38 @@ public class PendingRequisitionsFragment extends Fragment {
                     }
                 });
             }
-
         }
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Search");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (TextUtils.isEmpty(s)){
+                    adapter.filter("");
+                    listView.clearTextFilter();
+                }
+                else {
+                    adapter.filter(s);
+                }
+                return true;
+            }
+
+        });
     }
 }

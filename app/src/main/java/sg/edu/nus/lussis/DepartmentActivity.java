@@ -63,7 +63,6 @@ public class DepartmentActivity extends AppCompatActivity
                     new MyRequisitionsFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_my_requisitions);
         }
-
     }
 
     //hides nav drawer items
@@ -75,34 +74,6 @@ public class DepartmentActivity extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_pending_requisitions).setVisible(false);
         if(i != 3)
             nav_Menu.findItem(R.id.nav_disbursement).setVisible(false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView)myActionMenuItem.getActionView();
-        searchView.setQueryHint("Search");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if (TextUtils.isEmpty(s)){
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                }
-                else {
-                    adapter.filter(s);
-                }
-                return true;
-            }
-        });
-        return true;
     }
 
     @Override

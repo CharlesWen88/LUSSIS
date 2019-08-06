@@ -11,13 +11,13 @@ import java.util.List;
 
 import sg.edu.nus.lussis.Model.RequisitionDetails;
 
-public class DisbursementDetailsListViewAdapter extends BaseAdapter {
+public class PendingRequisitionDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<RequisitionDetails> detailsList;
 
-    public DisbursementDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
+    public PendingRequisitionDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.detailsList = detailsList;
@@ -44,9 +44,9 @@ public class DisbursementDetailsListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DisbursementDetailsListViewAdapter.ViewHolder holder;
+        PendingRequisitionDetailsListViewAdapter.ViewHolder holder;
         if (convertView==null){
-            holder = new DisbursementDetailsListViewAdapter.ViewHolder();
+            holder = new PendingRequisitionDetailsListViewAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.disbursement_details_list_content, null);
 
             //locate the views in xml file
@@ -57,13 +57,13 @@ public class DisbursementDetailsListViewAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         else {
-            holder = (DisbursementDetailsListViewAdapter.ViewHolder)convertView.getTag();
+            holder = (PendingRequisitionDetailsListViewAdapter.ViewHolder)convertView.getTag();
         }
 
         //set the results into textViews
         holder.tvSN.setText(String.valueOf(position+1));
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
-        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
+        holder.tvQuantity.setText(detailsList.get(position).getQuantityOrdered());
 
         return convertView;
     }
