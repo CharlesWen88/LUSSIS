@@ -2,12 +2,10 @@ package sg.edu.nus.lussis;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -18,6 +16,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import sg.edu.nus.lussis.Model.LoginDTO;
 
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,9 +63,21 @@ public class DepartmentActivity extends AppCompatActivity
 
         //loads the fragment based on roleId
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new MyRequisitionsFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_my_requisitions);
+
+            LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
+            int role = Integer.valueOf(login.getRoleId());
+
+            if(role == 1 || role == 4) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PendingRequisitionsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_pending_requisitions);
+            }
+            else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyRequisitionsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_my_requisitions);
+            }
+
         }
     }
 

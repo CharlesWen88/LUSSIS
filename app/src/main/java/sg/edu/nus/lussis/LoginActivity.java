@@ -63,60 +63,60 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-        public class LoginUser extends AsyncTask<String, Void, String>{
-            @Override
-            protected String doInBackground(String... strings) {
-                String username = strings[0];
-                String password = strings[1];
+    public class LoginUser extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            String username = strings[0];
+            String password = strings[1];
 
-                OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient okHttpClient = new OkHttpClient();
 
-                //adds username and password to the formbody
-                RequestBody formBody = new FormBody.Builder()
-                        .add("Username", username)
-                        .add("Password", password)
-                        .build();
+            //adds username and password to the formbody
+            RequestBody formBody = new FormBody.Builder()
+                    .add("Username", username)
+                    .add("Password", password)
+                    .build();
 
-                //posts the requests
-                Request request = new Request.Builder()
-                        .url(url_Login)
-                        .post(formBody)
-                        .build();
+            //posts the requests
+            Request request = new Request.Builder()
+                    .url(url_Login)
+                    .post(formBody)
+                    .build();
 
-                Response response;
+            Response response;
 
-                //executes the response and receives the response creates a JSON object from the
-                //response string and uses the roleId to generate the next Activity page
-                try{
-                    response = okHttpClient.newCall(request).execute();
-                    if(response.isSuccessful() ){
-                        String result = response.body().string();
-                        if(!result.equalsIgnoreCase("null")){
+            //executes the response and receives the response creates a JSON object from the
+            //response string and uses the roleId to generate the next Activity page
+            try{
+                response = okHttpClient.newCall(request).execute();
+                if(response.isSuccessful() ){
+                    String result = response.body().string();
+                    if(!result.equalsIgnoreCase("null")){
 
-                            LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
+                        LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
 
-                            Intent i;
+                        Intent i;
 
-                            if(Integer.valueOf(login.getRoleId())<5)
-                                i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                            else
-                                i = new Intent(LoginActivity.this, DepartmentActivity.class);
-                            i.putExtra("loginDto", (new Gson()).toJson(login));
-                            startActivity(i);
+                        if(Integer.valueOf(login.getRoleId())<5)
+                            i = new Intent(LoginActivity.this, DepartmentActivity.class);
+                        else
+                            i = new Intent(LoginActivity.this, DepartmentActivity.class);
+                        i.putExtra("loginDto", (new Gson()).toJson(login));
+                        startActivity(i);
 
-                            finish();
+                        finish();
 
-                        }else{
-                            openLoginErrorDialog();
-                        }
+                    }else{
+                        openLoginErrorDialog();
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
                 }
-
-                return null;
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
+            return null;
         }
+    }
 
     private TextWatcher loginTextWatcher = new TextWatcher() {
         @Override

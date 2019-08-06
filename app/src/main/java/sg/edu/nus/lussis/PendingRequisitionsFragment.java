@@ -38,8 +38,6 @@ import static sg.edu.nus.lussis.Util.Constants.URL;
 
 public class PendingRequisitionsFragment extends Fragment {
 
-    private Button btnApprove, btnReject;
-
     private ListView listView;
     private PendingRequisitionsListViewAdapter adapter;
 
@@ -54,11 +52,6 @@ public class PendingRequisitionsFragment extends Fragment {
         if(getActivity() != null)
             getActivity().setTitle("Pending Requisitions");
         setHasOptionsMenu(true);
-
-        if(getView() != null) {
-            btnApprove = getView().findViewById(R.id.approve);
-            btnApprove = getView().findViewById(R.id.reject);
-        }
 
         try {
             //retrieves the intent from previous activity to get the employeeId
