@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -19,37 +20,45 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sg.edu.nus.lussis.Model.Disbursement;
+import sg.edu.nus.lussis.Model.Requisition;
+import sg.edu.nus.lussis.Model.RequisitionsDTO;
 
 import static sg.edu.nus.lussis.Util.Constants.URL;
 
-public class DisbursementListFragment extends Fragment {
+public class PendingRequisitionsFragment extends Fragment {
+
+    Button btnApprove, btnReject;
 
     private ListView listView;
-    private DisbursementListViewAdapter adapter;
+    private PendingRequisitionsListViewAdapter adapter;
 
-    private final String url_Login = URL + "mobileDisbursement/";
-    private List<Disbursement> disbursements = new ArrayList<>();
+    private final String url_Pending_Requisitions = URL + "mobileRequisition/pending/";
+    private List<Requisition> requisitions = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
 
-        getActivity().setTitle("Disbursement List");
+        if(getActivity() != null)
+            getActivity().setTitle("My Requisitions");
+
+        if(getView() != null) {
+            btnApprove = getView().findViewById(R.id.approve);
+            btnApprove = getView().findViewById(R.id.reject);
+        }
 
         try {
             //retrieves the intent from previous activity to get the employeeId
             JSONObject jsonObj = new JSONObject(getActivity().getIntent().getStringExtra("loginDto"));
 
-            new GetDisbursements().execute(jsonObj.getString("EmployeeId"));
+            new GetPendingRequisitions().execute(jsonObj.getString("EmployeeId"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -58,9 +67,9 @@ public class DisbursementListFragment extends Fragment {
         return view;
     }
 
-    public class GetDisbursements extends AsyncTask<String, Void, List<Disbursement>> {
+    public class GetPendingRequisitions extends AsyncTask<String, Void, List<Requisition>> {
         @Override
-        protected List<Disbursement> doInBackground(String... strings) {
+        protected List<Requisition> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -74,7 +83,7 @@ public class DisbursementListFragment extends Fragment {
 
             //posts the requests
             Request request = new Request.Builder()
-                    .url(url_Login + "/" + empId)
+                    .url(url_Pending_Requisitions + empId)
                     .build();
 
             Response response;
@@ -86,10 +95,9 @@ public class DisbursementListFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
                     if (!result.equalsIgnoreCase("null")) {
-//                        disbursements = new Gson().fromJson(result, RequisitionsDTO.class);
-//
-//                        disbursements = req.getRequisitions();
-                        Collections.reverse(disbursements);
+                        RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
+
+                        requisitions = req.getRequisitions();
 
                     }
                 }
@@ -97,33 +105,52 @@ public class DisbursementListFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            return disbursements;
+            return requisitions;
         }
 
-        protected void onPostExecute(final List<Disbursement> disbursements) {
+        protected void onPostExecute(final List<Requisition> reqList) {
 
             //pass results to listViewAdapter class
-            adapter = new DisbursementListViewAdapter(getActivity(), disbursements);
+            adapter = new PendingRequisitionsListViewAdapter(getActivity(), reqList);
 
             if(getView() != null) {
                 listView = getView().findViewById(R.id.listView);
                 //bind the adapter to the listview
                 listView.setAdapter(adapter);
+
+                //move to PendingRequisitionsDetailsActivity later
+                LayoutInflater inflater = getLayoutInflater();
+                ViewGroup footerView = (ViewGroup) inflater.inflate(R.layout.pending_requisition_detail_footer, listView, false);
+                listView.addFooterView(footerView, null, false);
+
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int position, long id) {
 
-                        Intent i = new Intent(getActivity(), DisbursementDetailsActivity.class);
-                        i.putExtra("details", (new Gson()).toJson(disbursements.get(position)));
-                        String login = getActivity().getIntent().getStringExtra("loginDto");
-                        i.putExtra("loginDto", login);
+//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                            new RequisitionDetailsActivity()).addToBackStack(null).commit();
+
+
+                        // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
+
+//                    System.out.println("=========== Click");
+//                    bean = (ActivitiesBean) adapter.getItem(position);
+//
+                        Intent i = new Intent(getActivity(), RequisitionDetailsActivity.class);
+                        i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
+                        String login;
+                        if(getActivity() != null) {
+                            login = getActivity().getIntent().getStringExtra("loginDto");
+                            i.putExtra("loginDto", login);
+                        }
                         startActivity(i);
                     }
                 });
             }
 
         }
+
     }
 }

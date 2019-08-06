@@ -52,7 +52,7 @@ public class DisbursementListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = new ViewHolder();
-        convertView = inflater.inflate(R.layout.disbursement_list_content, null);
+        convertView = inflater.inflate(R.layout.disbursement_list_content, parent,false);
 
         //locate the views in xml file
         holder.tvLocation = convertView.findViewById(R.id.requisition_order);

@@ -20,13 +20,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import sg.edu.nus.lussis.Model.LoginDTO;
 
+import static sg.edu.nus.lussis.Util.Constants.URL;
+
+
 public class LoginActivity extends AppCompatActivity {
 //class written by Charles
 
     EditText etUsername, etPassword;
     Button btnLogin;
 
-    final String url_Login = "http://10.0.2.2:56287/api/mobilelogin";
+    final String url_Login = URL + "mobilelogin";
 
 
 
@@ -88,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     response = okHttpClient.newCall(request).execute();
                     if(response.isSuccessful() ){
                         String result = response.body().string();
-                        if(result != null && !result.equalsIgnoreCase("null")){
+                        if(!result.equalsIgnoreCase("null")){
 
                             LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
 

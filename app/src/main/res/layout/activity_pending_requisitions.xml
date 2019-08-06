@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".DisbursementDetailsActivity"
-    app:title="Disbursement Details">
+    tools:context=".RequisitionDetailsActivity"
+    app:title="Requisition Details">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -17,12 +17,11 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/disbursement_details_toolbar"
+            android:id="@+id/requisition_details_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,7 +48,7 @@
                     android:layout_weight="1"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Collection Point" />
+                    android:text="Requisition Form Id" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -57,7 +56,7 @@
                     android:layout_weight="0.8"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Collection Date" />
+                    android:text="Requisition Date" />
             </LinearLayout>
 
             <LinearLayout
@@ -67,15 +66,15 @@
                 android:layout_marginHorizontal="20dp">
 
                 <TextView
-                    android:id="@+id/dd_location"
+                    android:id="@+id/form_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="18sp"
-                    android:text="Stationery Store" />
+                    android:text="DDS/111/99" />
 
                 <TextView
-                    android:id="@+id/dd_date"
+                    android:id="@+id/date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
@@ -84,6 +83,55 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Name: " />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    android:textColor="#031CA8"
+                    android:text="David" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Status: " />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    android:textColor="#031CA8"
+                    android:text="Pending" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,7 +175,5 @@
             </ListView>
 
         </LinearLayout>
-
     </FrameLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

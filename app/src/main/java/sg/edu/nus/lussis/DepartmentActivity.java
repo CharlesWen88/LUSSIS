@@ -31,8 +31,6 @@ public class DepartmentActivity extends AppCompatActivity
     private Toast toast;
     private long lastBackPressTime = 0;
 
-    final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +140,6 @@ public class DepartmentActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -153,8 +150,12 @@ public class DepartmentActivity extends AppCompatActivity
                     new MyRequisitionsFragment()).commit();
 
         } else if (id == R.id.nav_pending_requisitions) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new PendingRequisitionsFragment()).commit();
 
         } else if (id == R.id.nav_disbursement) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new DisbursementListFragment()).commit();
 
         } else if (id == R.id.nav_logout) {
             //Goes back to login screen

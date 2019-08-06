@@ -29,12 +29,14 @@ import okhttp3.Response;
 import sg.edu.nus.lussis.Model.Requisition;
 import sg.edu.nus.lussis.Model.RequisitionsDTO;
 
+import static sg.edu.nus.lussis.Util.Constants.URL;
+
 public class MyRequisitionsFragment extends Fragment {
 
     private ListView listView;
     private MyRequisitionsListViewAdapter adapter;
 
-    private final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
+    private final String url_My_Requisitions = URL + "mobileRequisition/";
     private List<Requisition> requisitions = new ArrayList<>();
 
     @Nullable
@@ -73,7 +75,7 @@ public class MyRequisitionsFragment extends Fragment {
 
             //posts the requests
             Request request = new Request.Builder()
-                    .url(url_Login+"/"+empId)
+                    .url(url_My_Requisitions + empId)
                     .build();
 
             Response response;
@@ -84,7 +86,7 @@ public class MyRequisitionsFragment extends Fragment {
                 response = okHttpClient.newCall(request).execute();
                 if(response.isSuccessful() ){
                     String result = response.body().string();
-                    if(result != null && !result.equalsIgnoreCase("null")){
+                    if(!result.equalsIgnoreCase("null")){
                         RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
 
                         requisitions = req.getRequisitions();
@@ -117,6 +119,7 @@ public class MyRequisitionsFragment extends Fragment {
             listView = getView().findViewById(R.id.listView);
             //bind the adapter to the listview
             listView.setAdapter(adapter);
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override

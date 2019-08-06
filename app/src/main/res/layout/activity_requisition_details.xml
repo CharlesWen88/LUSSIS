@@ -142,11 +142,13 @@
                         android:text="Status" />
                 </LinearLayout>
 
-                <include
-                    layout="@layout/listview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/requisition_details_list_content"/>
+                    <ListView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:listSelector="@android:color/transparent"
+                        tools:listitem="@layout/requisition_details_list_content">
+                    </ListView>
 
             </LinearLayout>
     </FrameLayout>
