@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import sg.edu.nus.lussis.Model.Requisition;
 
-public class RequisitionDetailsActivity extends AppCompatActivity {
+public class MyRequisitionDetailsActivity extends AppCompatActivity {
 
     TextView tvId, tvDate, tvStatus;
 
@@ -49,7 +49,7 @@ public class RequisitionDetailsActivity extends AppCompatActivity {
         tvDate.setText(req.getDateTime());
         tvStatus.setText(req.getStatus());
 
-        RequisitionDetailsListViewAdapter adapter = new RequisitionDetailsListViewAdapter(this, req.getRequisitionDetails());
+        MyRequisitionDetailsListViewAdapter adapter = new MyRequisitionDetailsListViewAdapter(this, req.getRequisitionDetails());
 
         ListView listView = findViewById(R.id.listView);
         //bind the adapter to the listview

@@ -134,7 +134,7 @@ public class MyRequisitionsFragment extends Fragment {
                                         int position, long id) {
 
 //                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                            new RequisitionDetailsActivity()).addToBackStack(null).commit();
+//                            new MyRequisitionDetailsActivity()).addToBackStack(null).commit();
 
 
                     // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
@@ -142,7 +142,7 @@ public class MyRequisitionsFragment extends Fragment {
 //                    System.out.println("=========== Click");
 //                    bean = (ActivitiesBean) adapter.getItem(position);
 //
-                    Intent i = new Intent(getActivity(), RequisitionDetailsActivity.class);
+                    Intent i = new Intent(getActivity(), MyRequisitionDetailsActivity.class);
                     i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
                     String login = getActivity().getIntent().getStringExtra("loginDto");
                     i.putExtra("loginDto", login);

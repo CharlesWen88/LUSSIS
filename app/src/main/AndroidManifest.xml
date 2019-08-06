@@ -29,7 +29,7 @@
             android:launchMode="singleTop">
         </activity>
         <activity
-            android:name=".RequisitionDetailsActivity"
+            android:name=".MyRequisitionDetailsActivity"
             android:label="Requisition Details"
             android:parentActivityName=".DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -54,6 +54,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="sg.edu.nus.lussis.DepartmentActivity" />
+        </activity>
+        <activity
+            android:name=".DisbursementItemDetailsActivity"
+            android:label="Disbursement Details"
+            android:parentActivityName=".DepartmentActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sg.edu.nus.lussis.DisbursementDetailsActivity" />
         </activity>
 
     </application>

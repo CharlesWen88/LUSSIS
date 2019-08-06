@@ -11,13 +11,13 @@ import java.util.List;
 
 import sg.edu.nus.lussis.Model.RequisitionDetails;
 
-public class RequisitionDetailsListViewAdapter extends BaseAdapter {
+public class MyRequisitionDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<RequisitionDetails> detailsList;
 
-    public RequisitionDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
+    public MyRequisitionDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.detailsList = detailsList;
