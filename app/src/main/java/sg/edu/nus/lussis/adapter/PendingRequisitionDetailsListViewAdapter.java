@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import sg.edu.nus.lussis.Model.RequisitionDetails;
+import sg.edu.nus.lussis.model.RequisitionDetails;
+import sg.edu.nus.lussis.R;
 
 public class PendingRequisitionDetailsListViewAdapter extends BaseAdapter {
 

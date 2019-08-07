@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,10 +31,13 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sg.edu.nus.lussis.Model.Requisition;
-import sg.edu.nus.lussis.Model.RequisitionsDTO;
+import sg.edu.nus.lussis.activity.MyRequisitionDetailsActivity;
+import sg.edu.nus.lussis.model.Requisition;
+import sg.edu.nus.lussis.model.RequisitionsDTO;
+import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
+import sg.edu.nus.lussis.R;
 
-import static sg.edu.nus.lussis.Util.Constants.URL;
+import static sg.edu.nus.lussis.util.Constants.URL;
 
 public class MyRequisitionsFragment extends Fragment {
 
@@ -123,32 +126,36 @@ public class MyRequisitionsFragment extends Fragment {
             //pass results to listViewAdapter class
             adapter = new MyRequisitionsListViewAdapter(getActivity(), reqList);
 
-            listView = getView().findViewById(R.id.listView);
-            //bind the adapter to the listview
-            listView.setAdapter(adapter);
+            if(getView()!=null) {
+                listView = getView().findViewById(R.id.listView);
+                //bind the adapter to the listview
+                listView.setAdapter(adapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,
-                                        int position, long id) {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1,
+                                            int position, long id) {
 
 //                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                            new MyRequisitionDetailsActivity()).addToBackStack(null).commit();
 
 
-                    // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
 
 //                    System.out.println("=========== Click");
 //                    bean = (ActivitiesBean) adapter.getItem(position);
 //
-                    Intent i = new Intent(getActivity(), MyRequisitionDetailsActivity.class);
-                    i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
-                    String login = getActivity().getIntent().getStringExtra("loginDto");
-                    i.putExtra("loginDto", login);
-                    startActivity(i);
-                }
-            });
+                        Intent i = new Intent(getActivity(), MyRequisitionDetailsActivity.class);
+                        i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
+                        if(getActivity().getIntent()!=null) {
+                            String login = getActivity().getIntent().getStringExtra("loginDto");
+                            i.putExtra("loginDto", login);
+                        }
+                        startActivity(i);
+                    }
+                });
+            }
 
         }
 

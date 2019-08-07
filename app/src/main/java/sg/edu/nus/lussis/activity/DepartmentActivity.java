@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +18,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import sg.edu.nus.lussis.Model.LoginDTO;
+import sg.edu.nus.lussis.fragment.DisbursementListFragment;
+import sg.edu.nus.lussis.model.LoginDTO;
+import sg.edu.nus.lussis.fragment.MyRequisitionsFragment;
+import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
+import sg.edu.nus.lussis.fragment.PendingRequisitionsFragment;
+import sg.edu.nus.lussis.R;
 
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,22 +9,23 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import sg.edu.nus.lussis.Model.RequisitionDetails;
+import sg.edu.nus.lussis.model.RequisitionDetails;
+import sg.edu.nus.lussis.R;
 
-public class DisbursementDetailsListViewAdapter extends BaseAdapter {
+public class MyRequisitionDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<RequisitionDetails> detailsList;
 
-    public DisbursementDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
+    public MyRequisitionDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.detailsList = detailsList;
     }
 
     public class ViewHolder{
-        TextView tvSN, tvName, tvQuantity;
+        TextView tvName, tvQuantity, tvStatus;
     }
 
     @Override
@@ -44,26 +45,26 @@ public class DisbursementDetailsListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DisbursementDetailsListViewAdapter.ViewHolder holder;
+        ViewHolder holder;
         if (convertView==null){
-            holder = new DisbursementDetailsListViewAdapter.ViewHolder();
-            convertView = inflater.inflate(R.layout.disbursement_details_list_content, null);
+            holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.requisition_details_list_content, null);
 
             //locate the views in xml file
-            holder.tvSN = convertView.findViewById(R.id.dd_sn);
-            holder.tvName = convertView.findViewById(R.id.dd_name);
-            holder.tvQuantity = convertView.findViewById(R.id.dd_quantity);
+            holder.tvName = convertView.findViewById(R.id.rd_name);
+            holder.tvQuantity = convertView.findViewById(R.id.rd_quantity);
+            holder.tvStatus = convertView.findViewById(R.id.rd_status2);
 
             convertView.setTag(holder);
         }
         else {
-            holder = (DisbursementDetailsListViewAdapter.ViewHolder)convertView.getTag();
+            holder = (ViewHolder)convertView.getTag();
         }
 
         //set the results into textViews
-        holder.tvSN.setText(String.valueOf(position+1));
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
-        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
+        holder.tvQuantity.setText(detailsList.get(position).getQuantityOrdered());
+        holder.tvStatus.setText(detailsList.get(position).getStatus());
 
         return convertView;
     }

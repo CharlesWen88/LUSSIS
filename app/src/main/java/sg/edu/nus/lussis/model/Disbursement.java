@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis.Model;
+package sg.edu.nus.lussis.model;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class Disbursement {
     private Employee Employee1;
     private List<RequisitionDetails> RequisitionDetails;
 
-    public Disbursement(String id, String deliveredEmployeeId, String reveivedEmployeeId, boolean adhoc, String deliveryDateTime, String collectionPoint, Employee employee1, List<sg.edu.nus.lussis.Model.RequisitionDetails> requisitionDetails) {
+    public Disbursement(String id, String deliveredEmployeeId, String reveivedEmployeeId, boolean adhoc, String deliveryDateTime, String collectionPoint, Employee employee1, List<sg.edu.nus.lussis.model.RequisitionDetails> requisitionDetails) {
         Id = id;
         DeliveredEmployeeId = deliveredEmployeeId;
         ReveivedEmployeeId = reveivedEmployeeId;
@@ -79,11 +79,11 @@ public class Disbursement {
         Employee1 = employee1;
     }
 
-    public List<sg.edu.nus.lussis.Model.RequisitionDetails> getRequisitionDetails() {
+    public List<sg.edu.nus.lussis.model.RequisitionDetails> getRequisitionDetails() {
         return RequisitionDetails;
     }
 
-    public void setRequisitionDetails(List<sg.edu.nus.lussis.Model.RequisitionDetails> requisitionDetails) {
+    public void setRequisitionDetails(List<sg.edu.nus.lussis.model.RequisitionDetails> requisitionDetails) {
         RequisitionDetails = requisitionDetails;
     }
 }

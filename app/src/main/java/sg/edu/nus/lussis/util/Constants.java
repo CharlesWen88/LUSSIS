@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis.Util;
+package sg.edu.nus.lussis.util;
 
 public class Constants {
 

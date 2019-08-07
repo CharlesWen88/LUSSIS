@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RetrievalListFragment">
+    tools:context=".fragment.RetrievalListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:listSelector="@android:color/transparent"
         tools:listitem="@layout/retrieval_list_content">

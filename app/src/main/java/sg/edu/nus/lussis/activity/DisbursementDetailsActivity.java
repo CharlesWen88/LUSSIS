@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.Model.Disbursement;
+import sg.edu.nus.lussis.adapter.DisbursementDetailsListViewAdapter;
+import sg.edu.nus.lussis.model.Disbursement;
+import sg.edu.nus.lussis.R;
 
 public class DisbursementDetailsActivity extends AppCompatActivity {
 

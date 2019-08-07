@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis.Model;
+package sg.edu.nus.lussis.model;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class RequisitionsDTO {
         Requisitions = requisitions;
     }
 
-    public sg.edu.nus.lussis.Model.LoginDTO getLoginDTO() {
+    public sg.edu.nus.lussis.model.LoginDTO getLoginDTO() {
         return LoginDTO;
     }
 

@@ -1,6 +1,4 @@
-package sg.edu.nus.lussis.Model;
-
-import java.util.List;
+package sg.edu.nus.lussis.model;
 
 public class RequisitionDetails {
 
@@ -13,7 +11,7 @@ public class RequisitionDetails {
     private String Status;
     private Stationery Stationery;
 
-    public RequisitionDetails(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityDelivered, String status, sg.edu.nus.lussis.Model.Stationery stationery) {
+    public RequisitionDetails(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityDelivered, String status, sg.edu.nus.lussis.model.Stationery stationery) {
         Id = id;
         RequisitionId = requisitionId;
         DisbursementId = disbursementId;
@@ -80,11 +78,11 @@ public class RequisitionDetails {
         Status = status;
     }
 
-    public sg.edu.nus.lussis.Model.Stationery getStationery() {
+    public sg.edu.nus.lussis.model.Stationery getStationery() {
         return Stationery;
     }
 
-    public void setStationery(sg.edu.nus.lussis.Model.Stationery stationery) {
+    public void setStationery(sg.edu.nus.lussis.model.Stationery stationery) {
         Stationery = stationery;
     }
 }

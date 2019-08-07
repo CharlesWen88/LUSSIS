@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MyRequisitionDetailsActivity"
+    tools:context=".activity.MyRequisitionDetailsActivity"
     app:title="Requisition Details">
 
     <com.google.android.material.appbar.AppBarLayout

@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,9 +18,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import sg.edu.nus.lussis.Model.LoginDTO;
+import sg.edu.nus.lussis.util.LoginErrorDialog;
+import sg.edu.nus.lussis.model.LoginDTO;
+import sg.edu.nus.lussis.R;
 
-import static sg.edu.nus.lussis.Util.Constants.URL;
+import static sg.edu.nus.lussis.util.Constants.URL;
 
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis.Model;
+package sg.edu.nus.lussis.model;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,46 +23,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DepartmentActivity"
+            android:name=".activity.DepartmentActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop">
         </activity>
         <activity
-            android:name=".MyRequisitionDetailsActivity"
+            android:name=".activity.MyRequisitionDetailsActivity"
             android:label="Requisition Details"
-            android:parentActivityName=".DepartmentActivity"
+            android:parentActivityName=".activity.DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.DepartmentActivity" />
+                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
         </activity>
         <activity
-            android:name=".PendingRequisitionDetailsActivity"
+            android:name=".activity.PendingRequisitionDetailsActivity"
             android:label="Requisition Details"
-            android:parentActivityName=".DepartmentActivity"
+            android:parentActivityName=".activity.DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.DepartmentActivity" />
+                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
         </activity>
         <activity
-            android:name=".DisbursementDetailsActivity"
+            android:name=".activity.DisbursementDetailsActivity"
             android:label="Disbursement Details"
-            android:parentActivityName=".DepartmentActivity"
+            android:parentActivityName=".activity.DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.DepartmentActivity" />
+                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
         </activity>
         <activity
-            android:name=".DisbursementItemDetailsActivity"
+            android:name=".activity.DisbursementItemDetailsActivity"
             android:label="Disbursement Details"
-            android:parentActivityName=".DepartmentActivity"
+            android:parentActivityName=".activity.DepartmentActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.DisbursementDetailsActivity" />
+                android:value="sg.edu.nus.lussis.activity.DisbursementDetailsActivity" />
         </activity>
 
     </application>

@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis;
+package sg.edu.nus.lussis.util;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
