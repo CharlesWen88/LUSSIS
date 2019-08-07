@@ -84,8 +84,7 @@ public class PendingRequisitionsListViewAdapter extends BaseAdapter {
         else{
             for(Requisition requisition : arrayList) {
                 if(requisition.getId().toLowerCase(Locale.getDefault()).contains(charText) ||
-                        requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText) ||
-                        requisition.getEmployee().getName().toLowerCase(Locale.getDefault()).contains(charText)){
+                        requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText)){
                     requisitionList.add(requisition);
                 }
             }

@@ -51,7 +51,7 @@ public class DepartmentActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         //toggle open and close the menu drawer
@@ -94,7 +94,7 @@ public class DepartmentActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -151,7 +151,7 @@ public class DepartmentActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
