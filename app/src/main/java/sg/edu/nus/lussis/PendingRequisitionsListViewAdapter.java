@@ -13,15 +13,15 @@ import java.util.Locale;
 
 import sg.edu.nus.lussis.Model.Requisition;
 
-public class MyRequisitionsListViewAdapter extends BaseAdapter {
+public class PendingRequisitionsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<Requisition> requisitionList;
     private ArrayList<Requisition> arrayList;
 
-    public MyRequisitionsListViewAdapter(Context context, List<Requisition> requisitionList) {
-        mContext = context;
+    public PendingRequisitionsListViewAdapter(Context mContext, List<Requisition> requisitionList) {
+        this.mContext = mContext;
         this.requisitionList = requisitionList;
         inflater = LayoutInflater.from(mContext);
         arrayList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        TextView tvId, tvDate, tvStatus;
+        TextView tvId, tvDate, tvName;
     }
 
     @Override
@@ -49,17 +49,17 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder holder;
- //       if (view==null){
-            holder = new ViewHolder();
-            view = inflater.inflate(R.layout.my_requisitions_list_content, null);
+        PendingRequisitionsListViewAdapter.ViewHolder holder;
+        //       if (view==null){
+        holder = new PendingRequisitionsListViewAdapter.ViewHolder();
+        view = inflater.inflate(R.layout.pending_requisitions_list_content, null);
 
-            //locate the views in xml file
-            holder.tvId = view.findViewById(R.id.requisition_order);
-            holder.tvDate = view.findViewById(R.id.requisition_date);
-            holder.tvStatus = view.findViewById(R.id.requisition_status);
+        //locate the views in xml file
+        holder.tvId = view.findViewById(R.id.requisition_order);
+        holder.tvDate = view.findViewById(R.id.requisition_date);
+        holder.tvName = view.findViewById(R.id.requisition_name);
 
-            view.setTag(holder);
+        view.setTag(holder);
 
 //        }
 //        else {
@@ -69,7 +69,7 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
         //set the results into textViews
         holder.tvId.setText(requisitionList.get(position).getId());
         holder.tvDate.setText(requisitionList.get(position).getDateTime());
-        holder.tvStatus.setText(requisitionList.get(position).getStatus());
+        holder.tvName.setText(requisitionList.get(position).getStatus());
 
         return view;
     }
@@ -84,13 +84,12 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
         else{
             for(Requisition requisition : arrayList) {
                 if(requisition.getId().toLowerCase(Locale.getDefault()).contains(charText) ||
-                        requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText)){
+                        requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText) ||
+                        requisition.getEmployee().getName().toLowerCase(Locale.getDefault()).contains(charText)){
                     requisitionList.add(requisition);
                 }
             }
         }
         notifyDataSetChanged();
     }
-
-
 }

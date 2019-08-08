@@ -10,14 +10,16 @@ public class Requisition {
     private String Status;
     private String Remarks;
     private List<RequisitionDetails> RequisitionDetails;
+    private Employee Employee;
 
-    public Requisition(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionDetails> requisitionDetails) {
+    public Requisition(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionDetails> requisitionDetails, Employee employee) {
         Id = id;
         EmployeeId = employeeId;
         DateTime = dateTime.substring(0,10);
         this.Status = status;
         Remarks = remarks;
         RequisitionDetails = requisitionDetails;
+        Employee = employee;
     }
 
     public String getId() {
@@ -67,4 +69,8 @@ public class Requisition {
     public void setRequisitionDetails(List<RequisitionDetails> requisitionDetails) {
         RequisitionDetails = requisitionDetails;
     }
+
+    public Employee getEmployee() { return Employee;}
+
+    public void setEmployee(Employee employee) { Employee = employee;}
 }

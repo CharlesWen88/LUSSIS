@@ -8,32 +8,32 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/dd_sn"
+        android:id="@+id/id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:text="S/N"
+        android:text="Form Id"
         android:textSize="16sp"
         android:gravity="start"
-        android:layout_marginStart="25dp"/>
+        android:layout_marginStart="15dp"/>
 
     <TextView
-        android:id="@+id/dd_name"
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:text="Item Name"
+        android:layout_weight="1"
+        android:text="Employee Name"
         android:textSize="16sp"
         android:gravity="start"
         android:layout_marginStart="2dp"/>
 
     <TextView
-        android:id="@+id/dd_quantity"
+        android:id="@+id/quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:text="Quantity"
         android:textSize="16sp"
-        android:gravity="center" />
+        android:gravity="start" />
 
 </LinearLayout>

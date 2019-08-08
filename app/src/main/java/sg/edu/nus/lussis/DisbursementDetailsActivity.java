@@ -2,7 +2,9 @@ package sg.edu.nus.lussis;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +53,19 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         //bind the adapter to the listview
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long id) {
+
+                Intent i = new Intent(DisbursementDetailsActivity.this, DisbursementItemDetailsActivity.class);
+                //i.putExtra("details", (new Gson()).toJson(disbursements.get(position)));
+                String login = getIntent().getStringExtra("loginDto");
+                i.putExtra("loginDto", login);
+                startActivity(i);
+            }
+        });
     }
 
 
