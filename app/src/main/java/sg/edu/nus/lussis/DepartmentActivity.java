@@ -19,8 +19,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import sg.edu.nus.lussis.Session.SessionManager;
+
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    SessionManager sessionMgr;
 
     ListView listView;
     MyRequisitionsListViewAdapter adapter;
@@ -38,6 +42,7 @@ public class DepartmentActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_department);
 
+        sessionMgr = new SessionManager(getApplicationContext());
         //shows status bar at the top of the screen
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -142,25 +147,33 @@ public class DepartmentActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private static int lastClicked = R.id.nav_my_requisitions;
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_my_requisitions) {
+
+        if (id == R.id.nav_my_requisitions && lastClicked != id) {
+
+            lastClicked = id;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyRequisitionsFragment()).commit();
 
-        } else if (id == R.id.nav_pending_requisitions) {
+        } else if (id == R.id.nav_pending_requisitions && lastClicked != id) {
+            lastClicked = id;
 
-        } else if (id == R.id.nav_disbursement) {
+        } else if (id == R.id.nav_disbursement && lastClicked != id) {
+            lastClicked = id;
 
         } else if (id == R.id.nav_logout) {
             //Goes back to login screen
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            sessionMgr.logoutUser();
+            //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

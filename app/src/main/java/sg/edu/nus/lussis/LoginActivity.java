@@ -13,12 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import sg.edu.nus.lussis.Model.LoginDTO;
+import sg.edu.nus.lussis.Session.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
 //class written by Charles
@@ -26,8 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
 
-    final String url_Login = "http://10.0.2.2:56287/api/mobilelogin";
+    final String url_Login = "http://10.0.2.2:56287/api/mobilelogin/Post";
 
+    SessionManager sessionMgr;
 
 
     @Override
@@ -35,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sessionMgr = new SessionManager(getApplicationContext());
 
         etUsername = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
@@ -57,8 +63,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
     }
+
+    public void loginExistingUser(String username, String password){
+        new LoginUser().execute(username, password);
+    }
+
+
 
         public class LoginUser extends AsyncTask<String, Void, String>{
             @Override
@@ -91,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                         if(result != null && !result.equalsIgnoreCase("null")){
 
                             LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
+
+                            sessionMgr.createLoginSession(username, password);
 
                             Intent i;
 
