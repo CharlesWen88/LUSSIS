@@ -170,9 +170,13 @@ public class DepartmentActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_pending_requisitions && lastClicked != id) {
             lastClicked = id;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new PendingRequisitionsFragment()).commit();
 
         } else if (id == R.id.nav_disbursement && lastClicked != id) {
             lastClicked = id;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new DisbursementListFragment()).commit();
 
         } else if (id == R.id.nav_logout) {
             //Goes back to login screen

@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
-import java.util.HashMap;
-
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -69,12 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
-    public void loginExistingUser(String username, String password){
-        new LoginUser().execute(username, password);
-    }
-
-
 
     public class LoginUser extends AsyncTask<String, Void, String>{
         @Override
