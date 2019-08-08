@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,30 +43,42 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         sessionMgr = new SessionManager(getApplicationContext());
 
-        etUsername = findViewById(R.id.username);
-        etPassword = findViewById(R.id.password);
-        btnLogin = findViewById(R.id.login);
+        boolean isLoggedIn = sessionMgr.checkLoggedIn();
 
-        etUsername.addTextChangedListener(loginTextWatcher);
-        etPassword.addTextChangedListener(loginTextWatcher);
+        if(isLoggedIn){
+            HashMap<String, String> empLogin = sessionMgr.getEmployeeDetails();
+            String username = empLogin.get(SessionManager.KEY_USERNAME);
+            String password = empLogin.get(SessionManager.KEY_PASSWORD);
+            new LoginUser().execute(username, password);
+        }
+        else {
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            setContentView(R.layout.activity_login);
 
-                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+            etUsername = findViewById(R.id.username);
+            etPassword = findViewById(R.id.password);
+            btnLogin = findViewById(R.id.login);
 
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+            etUsername.addTextChangedListener(loginTextWatcher);
+            etPassword.addTextChangedListener(loginTextWatcher);
 
-                new LoginUser().execute(username, password);
-            }
-        });
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
+                    String username = etUsername.getText().toString();
+                    String password = etPassword.getText().toString();
+
+                    new LoginUser().execute(username, password);
+                }
+            });
+
+        }
 
     }
 
