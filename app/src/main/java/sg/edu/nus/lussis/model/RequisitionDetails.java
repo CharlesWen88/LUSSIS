@@ -78,7 +78,7 @@ public class RequisitionDetails {
         Status = status;
     }
 
-    public sg.edu.nus.lussis.model.Stationery getStationery() {
+    public Stationery getStationery() {
         return Stationery;
     }
 

@@ -1,5 +1,6 @@
 package sg.edu.nus.lussis.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -84,11 +86,23 @@ public class PendingRequisitionDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PendingRequisitionDetailsActivity.this);
+                builder.setMessage("Comfirm Approval?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id1) {
+                                String comment = etComment.getText().toString();
 
-                String comment = etComment.getText().toString();
-
-                new RequisitionApproval().execute(id, "approve", comment);
+                                new RequisitionApproval().execute(id, "approve", comment);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id1) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
@@ -96,11 +110,23 @@ public class PendingRequisitionDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PendingRequisitionDetailsActivity.this);
+                builder.setMessage("Comfirm Rejection?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id1) {
+                                String comment = etComment.getText().toString();
 
-                String comment = etComment.getText().toString();
-
-                new RequisitionApproval().execute(id, "reject", comment);
+                                new RequisitionApproval().execute(id, "reject", comment);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id1) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }

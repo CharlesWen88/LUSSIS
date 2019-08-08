@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,6 +23,7 @@ import okhttp3.Response;
 import sg.edu.nus.lussis.util.LoginErrorDialog;
 import sg.edu.nus.lussis.model.LoginDTO;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.Session.SessionManager;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     final String url_Login = URL + "mobilelogin";
 
+    SessionManager sessionMgr;
 
 
     @Override
@@ -40,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sessionMgr = new SessionManager(getApplicationContext());
 
         etUsername = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
@@ -62,8 +68,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
     }
+
+    public void loginExistingUser(String username, String password){
+        new LoginUser().execute(username, password);
+    }
+
+
 
     public class LoginUser extends AsyncTask<String, Void, String>{
         @Override
@@ -97,7 +108,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         LoginDTO login = new Gson().fromJson(result, LoginDTO.class);
 
-                        Intent i;
+                            sessionMgr.createLoginSession(username, password);
+
+                            Intent i;
 
                         if(Integer.valueOf(login.getRoleId())<5)
                             i = new Intent(LoginActivity.this, DepartmentActivity.class);
