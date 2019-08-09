@@ -1,10 +1,9 @@
 package sg.edu.nus.lussis.model;
 
-public class Stationery {
-
+public class StationeryDTO {
     private String Description;
 
-    public Stationery(String description) {
+    public StationeryDTO(String description) {
         Description = description;
     }
 

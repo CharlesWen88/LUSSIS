@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import sg.edu.nus.lussis.model.Requisition;
+import sg.edu.nus.lussis.model.RequisitionDTO;
 import sg.edu.nus.lussis.R;
 
 public class MyRequisitionsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private List<Requisition> requisitionList;
-    private ArrayList<Requisition> arrayList;
+    private List<RequisitionDTO> requisitionList;
+    private ArrayList<RequisitionDTO> arrayList;
 
-    public MyRequisitionsListViewAdapter(Context context, List<Requisition> requisitionList) {
+    public MyRequisitionsListViewAdapter(Context context, List<RequisitionDTO> requisitionList) {
         mContext = context;
         this.requisitionList = requisitionList;
         inflater = LayoutInflater.from(mContext);
@@ -83,7 +83,7 @@ public class MyRequisitionsListViewAdapter extends BaseAdapter {
             requisitionList.addAll(arrayList);
         }
         else{
-            for(Requisition requisition : arrayList) {
+            for(RequisitionDTO requisition : arrayList) {
                 if(requisition.getId().toLowerCase(Locale.getDefault()).contains(charText) ||
                         requisition.getDateTime().toLowerCase(Locale.getDefault()).contains(charText)){
                     requisitionList.add(requisition);

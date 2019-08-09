@@ -34,8 +34,8 @@ import okhttp3.Response;
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.activity.MyRequisitionDetailsActivity;
 import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
-import sg.edu.nus.lussis.model.Requisition;
-import sg.edu.nus.lussis.model.RequisitionsDTO;
+import sg.edu.nus.lussis.model.RequisitionDTO;
+import sg.edu.nus.lussis.model.RequisitionListDTO;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -45,7 +45,7 @@ public class MyRequisitionsFragment extends Fragment {
     private MyRequisitionsListViewAdapter adapter;
 
     private final String url_My_Requisitions = URL + "mobileRequisition/";
-    private List<Requisition> requisitions = new ArrayList<>();
+    private List<RequisitionDTO> requisitions = new ArrayList<>();
 
     @Nullable
     @Override
@@ -69,9 +69,9 @@ public class MyRequisitionsFragment extends Fragment {
         return view;
     }
 
-    public class GetRequisitions extends AsyncTask<String, Void, List<Requisition>> {
+    public class GetRequisitions extends AsyncTask<String, Void, List<RequisitionDTO>> {
         @Override
-        protected List<Requisition> doInBackground(String... strings) {
+        protected List<RequisitionDTO> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -97,17 +97,17 @@ public class MyRequisitionsFragment extends Fragment {
                 if(response.isSuccessful() ){
                     String result = response.body().string();
                     if(!result.equalsIgnoreCase("null")){
-                        RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
+                        RequisitionListDTO req = new Gson().fromJson(result, RequisitionListDTO.class);
 
                         requisitions = req.getRequisitions();
                         Collections.reverse(requisitions);
 
 //                        JSONObject jsonObj = new JSONObject(result);
 //
-//                        JSONArray ja_Requisition = jsonObj.getJSONArray("Requisition");
+//                        JSONArray ja_Requisition = jsonObj.getJSONArray("RequisitionDTO");
 //                        for (int i = 0; i < ja_Requisition.length(); i++) {
 //                            JSONObject jsonR = ja_Requisition.getJSONObject(i);
-//                            requisitions.add(0, new Requisition(jsonR.getString("Id"),
+//                            requisitions.add(0, new RequisitionDTO(jsonR.getString("Id"),
 //                                    jsonR.getString("DateTime").substring(0, 10),
 //                                    jsonR.getString("Status"),
 //                                    null));
@@ -121,7 +121,7 @@ public class MyRequisitionsFragment extends Fragment {
             return requisitions;
         }
 
-        protected void onPostExecute(final List<Requisition> reqList) {
+        protected void onPostExecute(final List<RequisitionDTO> reqList) {
 
             //pass results to listViewAdapter class
             adapter = new MyRequisitionsListViewAdapter(getActivity(), reqList);
@@ -137,15 +137,6 @@ public class MyRequisitionsFragment extends Fragment {
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int position, long id) {
 
-//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                            new MyRequisitionDetailsActivity()).addToBackStack(null).commit();
-
-
-                        // Toast.makeText(getApplicationContext(),"Title => "+items.get(position), Toast.LENGTH_SHORT).show();
-
-//                    System.out.println("=========== Click");
-//                    bean = (ActivitiesBean) adapter.getItem(position);
-//
                         Intent i = new Intent(getActivity(), MyRequisitionDetailsActivity.class);
                         i.putExtra("details", (new Gson()).toJson(reqList.get(position)));
                         if(getActivity().getIntent()!=null) {

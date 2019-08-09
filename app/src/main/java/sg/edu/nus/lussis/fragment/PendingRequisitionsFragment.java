@@ -30,11 +30,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import sg.edu.nus.lussis.activity.PendingRequisitionDetailsActivity;
-import sg.edu.nus.lussis.model.Requisition;
-import sg.edu.nus.lussis.model.RequisitionsDTO;
-import sg.edu.nus.lussis.adapter.PendingRequisitionsListViewAdapter;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.activity.PendingRequisitionDetailsActivity;
+import sg.edu.nus.lussis.adapter.PendingRequisitionsListViewAdapter;
+import sg.edu.nus.lussis.model.RequisitionDTO;
+import sg.edu.nus.lussis.model.RequisitionListDTO;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -44,7 +44,7 @@ public class PendingRequisitionsFragment extends Fragment {
     private PendingRequisitionsListViewAdapter adapter;
 
     private final String url_Pending_Requisitions = URL + "mobileRequisition/pending/";
-    private List<Requisition> requisitions = new ArrayList<>();
+    private List<RequisitionDTO> requisitions = new ArrayList<>();
 
     @Nullable
     @Override
@@ -68,9 +68,9 @@ public class PendingRequisitionsFragment extends Fragment {
         return view;
     }
 
-    public class GetPendingRequisitions extends AsyncTask<String, Void, List<Requisition>> {
+    public class GetPendingRequisitions extends AsyncTask<String, Void, List<RequisitionDTO>> {
         @Override
-        protected List<Requisition> doInBackground(String... strings) {
+        protected List<RequisitionDTO> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -96,7 +96,7 @@ public class PendingRequisitionsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
                     if (!result.equalsIgnoreCase("null")) {
-                        RequisitionsDTO req = new Gson().fromJson(result, RequisitionsDTO.class);
+                        RequisitionListDTO req = new Gson().fromJson(result, RequisitionListDTO.class);
                         requisitions = req.getRequisitions();
                     }
                 }
@@ -107,7 +107,7 @@ public class PendingRequisitionsFragment extends Fragment {
             return requisitions;
         }
 
-        protected void onPostExecute(final List<Requisition> reqList) {
+        protected void onPostExecute(final List<RequisitionDTO> reqList) {
 
             //pass results to listViewAdapter class
             adapter = new PendingRequisitionsListViewAdapter(getActivity(), reqList);

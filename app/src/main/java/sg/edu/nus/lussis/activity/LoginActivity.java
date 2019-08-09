@@ -23,10 +23,9 @@ import okhttp3.Response;
 import sg.edu.nus.lussis.util.LoginErrorDialog;
 import sg.edu.nus.lussis.model.LoginDTO;
 import sg.edu.nus.lussis.R;
-import sg.edu.nus.lussis.Session.SessionManager;
+import sg.edu.nus.lussis.session.SessionManager;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
-
 
 public class LoginActivity extends AppCompatActivity {
 //class written by Charles

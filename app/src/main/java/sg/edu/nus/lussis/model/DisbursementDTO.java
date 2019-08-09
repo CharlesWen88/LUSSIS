@@ -2,21 +2,21 @@ package sg.edu.nus.lussis.model;
 
 import java.util.List;
 
-public class Disbursement {
+public class DisbursementDTO {
     private String Id;
     private String DeliveredEmployeeId;
     private String ReveivedEmployeeId;
     private boolean AdHoc;
     private String DeliveryDateTime;
     private String CollectionPoint;
-    private Employee Employee1;
-    private List<RequisitionDetails> RequisitionDetails;
+    private EmployeeDTO Employee1;
+    private List<RequisitionDetailDTO> RequisitionDetails;
 
-    public Disbursement(String id, String deliveredEmployeeId, String reveivedEmployeeId, boolean adhoc, String deliveryDateTime, String collectionPoint, Employee employee1, List<sg.edu.nus.lussis.model.RequisitionDetails> requisitionDetails) {
+    public DisbursementDTO(String id, String deliveredEmployeeId, String reveivedEmployeeId, boolean adHoc, String deliveryDateTime, String collectionPoint, EmployeeDTO employee1, List<RequisitionDetailDTO> requisitionDetails) {
         Id = id;
         DeliveredEmployeeId = deliveredEmployeeId;
         ReveivedEmployeeId = reveivedEmployeeId;
-        AdHoc = adhoc;
+        AdHoc = adHoc;
         DeliveryDateTime = deliveryDateTime;
         CollectionPoint = collectionPoint;
         Employee1 = employee1;
@@ -71,19 +71,19 @@ public class Disbursement {
         CollectionPoint = collectionPoint;
     }
 
-    public Employee getEmployee1() {
+    public EmployeeDTO getEmployee1() {
         return Employee1;
     }
 
-    public void setEmployee1(Employee employee1) {
+    public void setEmployee1(EmployeeDTO employee1) {
         Employee1 = employee1;
     }
 
-    public List<sg.edu.nus.lussis.model.RequisitionDetails> getRequisitionDetails() {
+    public List<RequisitionDetailDTO> getRequisitionDetails() {
         return RequisitionDetails;
     }
 
-    public void setRequisitionDetails(List<sg.edu.nus.lussis.model.RequisitionDetails> requisitionDetails) {
+    public void setRequisitionDetails(List<RequisitionDetailDTO> requisitionDetails) {
         RequisitionDetails = requisitionDetails;
     }
 }

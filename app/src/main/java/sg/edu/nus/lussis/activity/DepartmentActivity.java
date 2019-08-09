@@ -1,6 +1,5 @@
 package sg.edu.nus.lussis.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -18,14 +17,15 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.Session.SessionManager;
-import sg.edu.nus.lussis.fragment.DisbursementListFragment;
-import sg.edu.nus.lussis.model.LoginDTO;
-import sg.edu.nus.lussis.fragment.MyRequisitionsFragment;
-import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
-import sg.edu.nus.lussis.fragment.PendingRequisitionsFragment;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.session.SessionManager;
+import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
+import sg.edu.nus.lussis.fragment.DisbursementListFragment;
+import sg.edu.nus.lussis.fragment.MyRequisitionsFragment;
+import sg.edu.nus.lussis.fragment.PendingRequisitionsFragment;
+import sg.edu.nus.lussis.model.LoginDTO;
 
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,7 +41,7 @@ public class DepartmentActivity extends AppCompatActivity
     private Toast toast;
     private long lastBackPressTime = 0;
 
-    final String url_Login = "http://10.0.2.2:56287/api/mobileRequisition";
+    private static int lastClicked ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +72,23 @@ public class DepartmentActivity extends AppCompatActivity
 
         //loads the fragment based on roleId
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new MyRequisitionsFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_my_requisitions);
-        }
 
+            LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
+            int role = Integer.valueOf(login.getRoleId());
+
+            if(role == 1 || role == 4) {
+                lastClicked = R.id.nav_pending_requisitions;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PendingRequisitionsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_pending_requisitions);
+            }
+            else {
+                lastClicked = R.id.nav_my_requisitions;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyRequisitionsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_my_requisitions);
+            }
+        }
     }
 
     //hides nav drawer items
@@ -139,22 +151,9 @@ public class DepartmentActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        // Settings thing that i deleted
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private static int lastClicked = R.id.nav_my_requisitions;
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -163,7 +162,6 @@ public class DepartmentActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_my_requisitions && lastClicked != id) {
-
             lastClicked = id;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyRequisitionsFragment()).commit();
@@ -181,13 +179,11 @@ public class DepartmentActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             //Goes back to login screen
             sessionMgr.logoutUser();
-            //Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

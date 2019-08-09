@@ -11,8 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.model.Requisition;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.RequisitionDTO;
 
 public class DisbursementItemDetailsActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class DisbursementItemDetailsActivity extends AppCompatActivity {
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String details = intent.getStringExtra("details");
-        Requisition req = new Gson().fromJson(details, Requisition.class);
+        RequisitionDTO req = new Gson().fromJson(details, RequisitionDTO.class);
 
         tvName = findViewById(R.id.name);
 

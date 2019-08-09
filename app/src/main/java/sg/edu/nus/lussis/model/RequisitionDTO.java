@@ -2,21 +2,20 @@ package sg.edu.nus.lussis.model;
 
 import java.util.List;
 
-public class Requisition {
-
+public class RequisitionDTO {
     private String Id;
     private String EmployeeId;
     private String DateTime;
     private String Status;
     private String Remarks;
-    private List<RequisitionDetails> RequisitionDetails;
-    private Employee Employee;
+    private List<RequisitionDetailDTO> RequisitionDetails;
+    private EmployeeDTO Employee;
 
-    public Requisition(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionDetails> requisitionDetails, Employee employee) {
+    public RequisitionDTO(String id, String employeeId, String dateTime, String status, String remarks, List<RequisitionDetailDTO> requisitionDetails, EmployeeDTO employee) {
         Id = id;
         EmployeeId = employeeId;
-        DateTime = dateTime.substring(0,10);
-        this.Status = status;
+        DateTime = dateTime;
+        Status = status;
         Remarks = remarks;
         RequisitionDetails = requisitionDetails;
         Employee = employee;
@@ -43,7 +42,7 @@ public class Requisition {
     }
 
     public void setDateTime(String dateTime) {
-        DateTime = dateTime.substring(0,10);
+        DateTime = dateTime;
     }
 
     public String getStatus() {
@@ -51,7 +50,7 @@ public class Requisition {
     }
 
     public void setStatus(String status) {
-        this.Status = status;
+        Status = status;
     }
 
     public String getRemarks() {
@@ -62,15 +61,19 @@ public class Requisition {
         Remarks = remarks;
     }
 
-    public List<RequisitionDetails> getRequisitionDetails() {
+    public List<RequisitionDetailDTO> getRequisitionDetails() {
         return RequisitionDetails;
     }
 
-    public void setRequisitionDetails(List<RequisitionDetails> requisitionDetails) {
+    public void setRequisitionDetails(List<RequisitionDetailDTO> requisitionDetails) {
         RequisitionDetails = requisitionDetails;
     }
 
-    public Employee getEmployee() { return Employee;}
+    public EmployeeDTO getEmployee() {
+        return Employee;
+    }
 
-    public void setEmployee(Employee employee) { Employee = employee;}
+    public void setEmployee(EmployeeDTO employee) {
+        Employee = employee;
+    }
 }

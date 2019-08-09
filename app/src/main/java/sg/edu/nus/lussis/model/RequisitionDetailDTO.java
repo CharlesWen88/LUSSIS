@@ -1,7 +1,6 @@
 package sg.edu.nus.lussis.model;
 
-public class RequisitionDetails {
-
+public class RequisitionDetailDTO {
     private String Id;
     private String RequisitionId;
     private String DisbursementId;
@@ -9,9 +8,10 @@ public class RequisitionDetails {
     private String QuantityOrdered;
     private String QuantityDelivered;
     private String Status;
-    private Stationery Stationery;
+    private StationeryDTO Stationery;
+    private DisbursementDTO Disbursement;
 
-    public RequisitionDetails(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityDelivered, String status, sg.edu.nus.lussis.model.Stationery stationery) {
+    public RequisitionDetailDTO(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityDelivered, String status, StationeryDTO stationery, DisbursementDTO disbursement) {
         Id = id;
         RequisitionId = requisitionId;
         DisbursementId = disbursementId;
@@ -20,6 +20,7 @@ public class RequisitionDetails {
         QuantityDelivered = quantityDelivered;
         Status = status;
         Stationery = stationery;
+        Disbursement = disbursement;
     }
 
     public String getId() {
@@ -78,11 +79,19 @@ public class RequisitionDetails {
         Status = status;
     }
 
-    public Stationery getStationery() {
+    public StationeryDTO getStationery() {
         return Stationery;
     }
 
-    public void setStationery(sg.edu.nus.lussis.model.Stationery stationery) {
+    public void setStationery(StationeryDTO stationery) {
         Stationery = stationery;
+    }
+
+    public DisbursementDTO getDisbursement() {
+        return Disbursement;
+    }
+
+    public void setDisbursement(DisbursementDTO disbursement) {
+        Disbursement = disbursement;
     }
 }

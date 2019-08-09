@@ -33,8 +33,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import sg.edu.nus.lussis.activity.DisbursementDetailsActivity;
 import sg.edu.nus.lussis.adapter.DisbursementListViewAdapter;
-import sg.edu.nus.lussis.model.Disbursement;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.DisbursementDTO;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -44,7 +44,7 @@ public class DisbursementListFragment extends Fragment {
     private DisbursementListViewAdapter adapter;
 
     private final String url_Login = URL + "mobileDisbursement/";
-    private List<Disbursement> disbursements = new ArrayList<>();
+    private List<DisbursementDTO> disbursements = new ArrayList<>();
 
     @Nullable
     @Override
@@ -68,9 +68,9 @@ public class DisbursementListFragment extends Fragment {
         return view;
     }
 
-    public class GetDisbursements extends AsyncTask<String, Void, List<Disbursement>> {
+    public class GetDisbursements extends AsyncTask<String, Void, List<DisbursementDTO>> {
         @Override
-        protected List<Disbursement> doInBackground(String... strings) {
+        protected List<DisbursementDTO> doInBackground(String... strings) {
             String empId = strings[0];
 
             OkHttpClient okHttpClient;
@@ -96,7 +96,7 @@ public class DisbursementListFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
                     if (!result.equalsIgnoreCase("null")) {
-//                        disbursements = new Gson().fromJson(result, RequisitionsDTO.class);
+//                        disbursements = new Gson().fromJson(result, RequisitionListDTO.class);
 //
 //                        disbursements = req.getRequisitions();
                         Collections.reverse(disbursements);
@@ -110,7 +110,7 @@ public class DisbursementListFragment extends Fragment {
             return disbursements;
         }
 
-        protected void onPostExecute(final List<Disbursement> disbursements) {
+        protected void onPostExecute(final List<DisbursementDTO> disbursements) {
 
             //pass results to listViewAdapter class
             adapter = new DisbursementListViewAdapter(getActivity(), disbursements);

@@ -1,4 +1,4 @@
-package sg.edu.nus.lussis.Session;
+package sg.edu.nus.lussis.session;
 
 import android.content.Context;
 import android.content.Intent;

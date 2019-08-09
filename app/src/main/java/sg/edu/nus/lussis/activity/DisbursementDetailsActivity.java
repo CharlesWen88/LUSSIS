@@ -14,9 +14,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.adapter.DisbursementDetailsListViewAdapter;
-import sg.edu.nus.lussis.model.Disbursement;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.adapter.DisbursementDetailsListViewAdapter;
+import sg.edu.nus.lussis.model.DisbursementDTO;
 
 public class DisbursementDetailsActivity extends AppCompatActivity {
 
@@ -42,7 +42,7 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String details = intent.getStringExtra("details");
-        Disbursement disbursement = new Gson().fromJson(details, Disbursement.class);
+        DisbursementDTO disbursement = new Gson().fromJson(details, DisbursementDTO.class);
 
         tvLocation = findViewById(R.id.dd_location);
         tvDate = findViewById(R.id.dd_date);

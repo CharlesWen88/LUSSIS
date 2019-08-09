@@ -25,10 +25,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import sg.edu.nus.lussis.model.LoginDTO;
-import sg.edu.nus.lussis.model.Requisition;
-import sg.edu.nus.lussis.adapter.PendingRequisitionDetailsListViewAdapter;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.adapter.PendingRequisitionDetailsListViewAdapter;
+import sg.edu.nus.lussis.model.LoginDTO;
+import sg.edu.nus.lussis.model.RequisitionDTO;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -56,7 +56,7 @@ public class PendingRequisitionDetailsActivity extends AppCompatActivity {
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String details = intent.getStringExtra("details");
-        Requisition req = new Gson().fromJson(details, Requisition.class);
+        RequisitionDTO req = new Gson().fromJson(details, RequisitionDTO.class);
 
         final String id = req.getId();
 

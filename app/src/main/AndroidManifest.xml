@@ -35,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
+                android:value=".activity.DepartmentActivity" />
         </activity>
         <activity
             android:name=".activity.PendingRequisitionDetailsActivity"
@@ -44,7 +44,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
+                android:value=".activity.DepartmentActivity" />
         </activity>
         <activity
             android:name=".activity.DisbursementDetailsActivity"
@@ -53,7 +53,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.activity.DepartmentActivity" />
+                android:value=".activity.DepartmentActivity" />
         </activity>
         <activity
             android:name=".activity.DisbursementItemDetailsActivity"
@@ -62,7 +62,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sg.edu.nus.lussis.activity.DisbursementDetailsActivity" />
+                android:value=".activity.DisbursementDetailsActivity" />
         </activity>
 
     </application>

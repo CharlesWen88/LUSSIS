@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import sg.edu.nus.lussis.model.Disbursement;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.DisbursementDTO;
 
 public class DisbursementListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private List<Disbursement> disbursementList;
-    private ArrayList<Disbursement> arrayList;
+    private List<DisbursementDTO> disbursementList;
+    private ArrayList<DisbursementDTO> arrayList;
 
-    public DisbursementListViewAdapter(Context context, List<Disbursement> disbursementList) {
+    public DisbursementListViewAdapter(Context context, List<DisbursementDTO> disbursementList) {
         mContext = context;
         this.disbursementList = disbursementList;
         inflater = LayoutInflater.from(mContext);
@@ -76,7 +76,7 @@ public class DisbursementListViewAdapter extends BaseAdapter {
             disbursementList.addAll(arrayList);
         }
         else{
-            for(Disbursement disbursement : arrayList) {
+            for(DisbursementDTO disbursement : arrayList) {
                 if(disbursement.getDeliveryDateTime().toLowerCase(Locale.getDefault()).contains(charText)){
                     disbursementList.add(disbursement);
                 }

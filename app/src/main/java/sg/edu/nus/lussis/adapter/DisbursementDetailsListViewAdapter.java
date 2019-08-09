@@ -9,16 +9,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import sg.edu.nus.lussis.model.RequisitionDetails;
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.RequisitionDetailDTO;
 
 public class DisbursementDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private List<RequisitionDetails> detailsList;
+    private List<RequisitionDetailDTO> detailsList;
 
-    public DisbursementDetailsListViewAdapter(Context mContext, List<RequisitionDetails> detailsList) {
+    public DisbursementDetailsListViewAdapter(Context mContext, List<RequisitionDetailDTO> detailsList) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.detailsList = detailsList;

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
-import sg.edu.nus.lussis.model.Requisition;
+import sg.edu.nus.lussis.model.RequisitionDTO;
 import sg.edu.nus.lussis.adapter.MyRequisitionDetailsListViewAdapter;
 import sg.edu.nus.lussis.R;
 
@@ -41,7 +41,7 @@ public class MyRequisitionDetailsActivity extends AppCompatActivity {
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String details = intent.getStringExtra("details");
-        Requisition req = new Gson().fromJson(details, Requisition.class);
+        RequisitionDTO req = new Gson().fromJson(details, RequisitionDTO.class);
 
         tvId = findViewById(R.id.rd_form_id);
         tvDate = findViewById(R.id.rd_date);

@@ -1,6 +1,6 @@
 package sg.edu.nus.lussis.model;
 
-public class Employee {
+public class EmployeeDTO {
     private String Id;
     private String Name;
     private String Email;
@@ -11,7 +11,7 @@ public class Employee {
     private String RoleId;
     private byte[] Image;
 
-    public Employee(String id, String name, String email, String username, String password, String title, String departmentId, String roleId, byte[] image) {
+    public EmployeeDTO(String id, String name, String email, String username, String password, String title, String departmentId, String roleId, byte[] image) {
         Id = id;
         Name = name;
         Email = email;
