@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(Integer.valueOf(login.getRoleId())<5)
                             i = new Intent(LoginActivity.this, DepartmentActivity.class);
                         else
-                            i = new Intent(LoginActivity.this, DepartmentActivity.class);
+                            i = new Intent(LoginActivity.this, StoreActivity.class);
                         i.putExtra("loginDto", (new Gson()).toJson(login));
                         startActivity(i);
 

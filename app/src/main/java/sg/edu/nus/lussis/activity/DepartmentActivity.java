@@ -32,8 +32,8 @@ public class DepartmentActivity extends AppCompatActivity
 
     SessionManager sessionMgr;
 
-    ListView listView;
-    MyRequisitionsListViewAdapter adapter;
+//    ListView listView;
+//    MyRequisitionsListViewAdapter adapter;
 
     //Navigation menu
     NavigationView navigationView;
@@ -41,7 +41,7 @@ public class DepartmentActivity extends AppCompatActivity
     private Toast toast;
     private long lastBackPressTime = 0;
 
-    private static int lastClicked ;
+    private static int lastClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class DepartmentActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
 
         //toggle open and close the menu drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -101,34 +101,34 @@ public class DepartmentActivity extends AppCompatActivity
         if(i != 3)
             nav_Menu.findItem(R.id.nav_disbursement).setVisible(false);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView)myActionMenuItem.getActionView();
-        searchView.setQueryHint("Search");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if (TextUtils.isEmpty(s)){
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                }
-                else {
-                    adapter.filter(s);
-                }
-                return true;
-            }
-        });
-        return true;
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//
+//        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+//        SearchView searchView = (SearchView)myActionMenuItem.getActionView();
+//        searchView.setQueryHint("Search");
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                if (TextUtils.isEmpty(s)){
+//                    adapter.filter("");
+//                    listView.clearTextFilter();
+//                }
+//                else {
+//                    adapter.filter(s);
+//                }
+//                return true;
+//            }
+//        });
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -159,7 +159,6 @@ public class DepartmentActivity extends AppCompatActivity
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
         if (id == R.id.nav_my_requisitions && lastClicked != id) {
             lastClicked = id;

@@ -29,6 +29,12 @@
             android:launchMode="singleTop">
         </activity>
         <activity
+            android:name=".activity.StoreActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
+        </activity>
+        <activity
             android:name=".activity.MyRequisitionDetailsActivity"
             android:label="Requisition Details"
             android:parentActivityName=".activity.DepartmentActivity"
@@ -58,11 +64,20 @@
         <activity
             android:name=".activity.DisbursementItemDetailsActivity"
             android:label="Disbursement Details"
-            android:parentActivityName=".activity.DepartmentActivity"
+            android:parentActivityName=".activity.DisbursementDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.DisbursementDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activity.RetrievalActivity"
+            android:label="Retrieval"
+            android:parentActivityName=".activity.StoreActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.StoreActivity" />
         </activity>
 
     </application>
