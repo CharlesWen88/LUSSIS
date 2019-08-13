@@ -146,17 +146,44 @@
                 android:textStyle="bold"
                 android:text="Acknowledgement:" />
 
-            <Button
-                android:id="@+id/submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="20dp"
-                android:background="@drawable/button_login"
-                android:ems="6"
-                android:text="Submit"
-                android:textColor="#fff"
-                android:textSize="20sp" />
+            <com.kyanogen.signatureview.SignatureView xmlns:sign="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/signature_view"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                sign:backgroundColor="#ffffff"
+                sign:enableSignature="true"
+                sign:penColor="#000000"
+                sign:penSize="5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_signatureClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="clear" />
+
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/button_login"
+                    android:ems="6"
+                    android:text="Submit"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

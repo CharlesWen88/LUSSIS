@@ -1,6 +1,7 @@
 package sg.edu.nus.lussis.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
+import com.kyanogen.signatureview.SignatureView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
     private List<RequisitionDetailDTO> requisitionList = new ArrayList<>();
 
     TextView tvDepartment, tvRep;
+
+    Bitmap bitmapImg;
+    Button clearBtn;
+    SignatureView signatureView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +102,21 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         //bind the adapter to the listview
         listView.setAdapter(adapter);
 
+        signatureView =  (SignatureView) findViewById(R.id.signature_view);
+        clearBtn = (Button) findViewById(R.id.button_signatureClear);
+
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signatureView.clearCanvas();
+            }
+        });
+
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                bitmapImg = signatureView.getSignatureBitmap();
                 String s = new Gson().toJson(disbursement);
                 new PostDisbursement().execute(s);
             }
