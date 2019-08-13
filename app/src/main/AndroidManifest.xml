@@ -79,6 +79,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.StoreActivity" />
         </activity>
+        <activity
+            android:name=".activity.AdHocRetrievalChooserActivity"
+            android:label="Retrieval"
+            android:parentActivityName=".activity.StoreActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.StoreActivity" />
+        </activity>
+        <activity
+            android:name=".activity.StoreDisbursementDetailsActivity"
+            android:label="Disbursement Details"
+            android:parentActivityName=".activity.StoreActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.StoreActivity" />
+        </activity>
 
     </application>
 

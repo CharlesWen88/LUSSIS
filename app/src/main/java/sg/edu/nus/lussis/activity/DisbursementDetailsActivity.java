@@ -14,9 +14,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.adapter.DisbursementDetailsListViewAdapter;
 import sg.edu.nus.lussis.model.DisbursementDTO;
+import sg.edu.nus.lussis.model.RequisitionDTO;
+import sg.edu.nus.lussis.model.RequisitionDetailDTO;
 
 public class DisbursementDetailsActivity extends AppCompatActivity {
 
@@ -41,7 +46,7 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
-        String details = intent.getStringExtra("details");
+        final String details = intent.getStringExtra("details");
         DisbursementDTO disbursement = new Gson().fromJson(details, DisbursementDTO.class);
 
         tvLocation = findViewById(R.id.dd_location);
@@ -50,7 +55,26 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
         tvLocation.setText(disbursement.getCollectionPoint());
         tvDate.setText(disbursement.getDeliveryDateTime());
 
-        DisbursementDetailsListViewAdapter adapter = new DisbursementDetailsListViewAdapter(this, disbursement.getRequisitionDetails());
+        final List<RequisitionDetailDTO> requisitionDetails = new ArrayList<>();
+        boolean added = false;
+
+        for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
+            for(RequisitionDetailDTO rd1 : requisitionDetails){
+                if(rd.getStationeryId().equals(rd1.getStationeryId())){
+                    rd1.setQuantityDelivered(String.valueOf(Integer.parseInt(rd1.getQuantityDelivered()) + Integer.parseInt(rd.getQuantityDelivered())));
+                    added = true;
+                }
+
+            }
+            if(!added) {
+                requisitionDetails.add(rd);
+            }
+            added = false;
+        }
+
+
+
+        DisbursementDetailsListViewAdapter adapter = new DisbursementDetailsListViewAdapter(this, requisitionDetails);
 
         ListView listView = findViewById(R.id.listView);
         //bind the adapter to the listview
@@ -62,7 +86,8 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
                                     int position, long id) {
 
                 Intent i = new Intent(DisbursementDetailsActivity.this, DisbursementItemDetailsActivity.class);
-                //i.putExtra("details", (new Gson()).toJson(disbursements.get(position)));
+                i.putExtra("disbursement", details);
+                i.putExtra("details", (new Gson()).toJson(requisitionDetails.get(position)));
                 String login = getIntent().getStringExtra("loginDto");
                 i.putExtra("loginDto", login);
                 startActivity(i);

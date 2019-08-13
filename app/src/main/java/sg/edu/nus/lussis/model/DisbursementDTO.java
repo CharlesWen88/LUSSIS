@@ -5,21 +5,25 @@ import java.util.List;
 public class DisbursementDTO {
     private String Id;
     private String DeliveredEmployeeId;
-    private String ReveivedEmployeeId;
+    private String ReceivedEmployeeId;
+    private String ReceivedEmployeeName;
+    private String DepartmentName;
     private boolean AdHoc;
     private String DeliveryDateTime;
     private String CollectionPoint;
-    private EmployeeDTO Employee1;
+    private byte[] Signature;
     private List<RequisitionDetailDTO> RequisitionDetails;
 
-    public DisbursementDTO(String id, String deliveredEmployeeId, String reveivedEmployeeId, boolean adHoc, String deliveryDateTime, String collectionPoint, EmployeeDTO employee1, List<RequisitionDetailDTO> requisitionDetails) {
+    public DisbursementDTO(String id, String deliveredEmployeeId, String receivedEmployeeId, String receivedEmployeeName, String departmentName, boolean adHoc, String deliveryDateTime, String collectionPoint, byte[] signature, List<RequisitionDetailDTO> requisitionDetails) {
         Id = id;
         DeliveredEmployeeId = deliveredEmployeeId;
-        ReveivedEmployeeId = reveivedEmployeeId;
+        ReceivedEmployeeId = receivedEmployeeId;
+        ReceivedEmployeeName = receivedEmployeeName;
+        DepartmentName = departmentName;
         AdHoc = adHoc;
         DeliveryDateTime = deliveryDateTime;
         CollectionPoint = collectionPoint;
-        Employee1 = employee1;
+        Signature = signature;
         RequisitionDetails = requisitionDetails;
     }
 
@@ -39,12 +43,28 @@ public class DisbursementDTO {
         DeliveredEmployeeId = deliveredEmployeeId;
     }
 
-    public String getReveivedEmployeeId() {
-        return ReveivedEmployeeId;
+    public String getReceivedEmployeeId() {
+        return ReceivedEmployeeId;
     }
 
-    public void setReveivedEmployeeId(String reveivedEmployeeId) {
-        ReveivedEmployeeId = reveivedEmployeeId;
+    public void setReceivedEmployeeId(String receivedEmployeeId) {
+        ReceivedEmployeeId = receivedEmployeeId;
+    }
+
+    public String getReceivedEmployeeName() {
+        return ReceivedEmployeeName;
+    }
+
+    public void setReceivedEmployeeName(String receivedEmployeeName) {
+        ReceivedEmployeeName = receivedEmployeeName;
+    }
+
+    public String getDepartmentName() {
+        return DepartmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        DepartmentName = departmentName;
     }
 
     public boolean isAdHoc() {
@@ -56,7 +76,7 @@ public class DisbursementDTO {
     }
 
     public String getDeliveryDateTime() {
-        return DeliveryDateTime;
+        return DeliveryDateTime.substring(0,10);
     }
 
     public void setDeliveryDateTime(String deliveryDateTime) {
@@ -71,12 +91,12 @@ public class DisbursementDTO {
         CollectionPoint = collectionPoint;
     }
 
-    public EmployeeDTO getEmployee1() {
-        return Employee1;
+    public byte[] getSignature() {
+        return Signature;
     }
 
-    public void setEmployee1(EmployeeDTO employee1) {
-        Employee1 = employee1;
+    public void setSignature(byte[] signature) {
+        Signature = signature;
     }
 
     public List<RequisitionDetailDTO> getRequisitionDetails() {

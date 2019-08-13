@@ -1,12 +1,9 @@
 package sg.edu.nus.lussis.activity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -20,12 +17,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import sg.edu.nus.lussis.R;
-import sg.edu.nus.lussis.session.SessionManager;
-import sg.edu.nus.lussis.adapter.MyRequisitionsListViewAdapter;
 import sg.edu.nus.lussis.fragment.DisbursementListFragment;
 import sg.edu.nus.lussis.fragment.MyRequisitionsFragment;
 import sg.edu.nus.lussis.fragment.PendingRequisitionsFragment;
 import sg.edu.nus.lussis.model.LoginDTO;
+import sg.edu.nus.lussis.session.SessionManager;
 
 public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

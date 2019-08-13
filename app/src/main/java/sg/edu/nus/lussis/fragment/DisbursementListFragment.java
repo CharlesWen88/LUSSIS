@@ -35,6 +35,7 @@ import sg.edu.nus.lussis.activity.DisbursementDetailsActivity;
 import sg.edu.nus.lussis.adapter.DisbursementListViewAdapter;
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.model.DisbursementDTO;
+import sg.edu.nus.lussis.model.DisbursementListDTO;
 
 import static sg.edu.nus.lussis.util.Constants.URL;
 
@@ -43,7 +44,7 @@ public class DisbursementListFragment extends Fragment {
     private ListView listView;
     private DisbursementListViewAdapter adapter;
 
-    private final String url_Login = URL + "mobileDisbursement/";
+    private final String url_Disbursement = URL + "mobileDisbursement/Department/";
     private List<DisbursementDTO> disbursements = new ArrayList<>();
 
     @Nullable
@@ -84,7 +85,7 @@ public class DisbursementListFragment extends Fragment {
 
             //posts the requests
             Request request = new Request.Builder()
-                    .url(url_Login + "/" + empId)
+                    .url(url_Disbursement + "/" + empId)
                     .build();
 
             Response response;
@@ -96,9 +97,9 @@ public class DisbursementListFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
                     if (!result.equalsIgnoreCase("null")) {
-//                        disbursements = new Gson().fromJson(result, RequisitionListDTO.class);
-//
-//                        disbursements = req.getRequisitions();
+                        DisbursementListDTO dis = new Gson().fromJson(result, DisbursementListDTO.class);
+
+                        disbursements = dis.getDisbursements();
                         Collections.reverse(disbursements);
 
                     }

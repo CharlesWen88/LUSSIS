@@ -176,6 +176,4 @@ public class RetrievalActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
 }

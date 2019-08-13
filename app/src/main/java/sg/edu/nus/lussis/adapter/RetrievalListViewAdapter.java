@@ -31,7 +31,7 @@ public class RetrievalListViewAdapter extends BaseAdapter {
     public class ViewHolder{
         TextView tvBin, tvName, tvNeeded;
         EditText etRetrieved;
-        public MutableWatcher mWatcher;
+        private MutableWatcher mWatcher;
     }
 
     @Override
@@ -74,8 +74,6 @@ public class RetrievalListViewAdapter extends BaseAdapter {
         holder.tvName.setText(retrievalItemList.get(position).getDescription());
         holder.tvNeeded.setText(retrievalItemList.get(position).getNeededQuantity());
         holder.mWatcher.setActive(false);
-        String s = retrievalItemList.get(position).getRetrievedQty();
-        System.err.println(s);
         holder.etRetrieved.setText(retrievalItemList.get(position).getRetrievedQty());
         holder.mWatcher.setPosition(position);
         holder.mWatcher.setActive(true);

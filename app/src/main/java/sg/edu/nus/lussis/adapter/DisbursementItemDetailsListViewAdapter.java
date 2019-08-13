@@ -7,26 +7,33 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.RequisitionDetailDTO;
 
 public class DisbursementItemDetailsListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
+    private List<RequisitionDetailDTO> detailsList;
 
+    public DisbursementItemDetailsListViewAdapter(Context mContext, List<RequisitionDetailDTO> detailsList) {
+        this.mContext = mContext;
+        inflater = LayoutInflater.from(mContext);
+        this.detailsList = detailsList;
+    }
 
     public class ViewHolder{
         TextView tvId, tvName, tvQuantity;
     }
 
     @Override
-    public int getCount() {
-        return 0;
-    }
+    public int getCount() { return detailsList.size(); }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return detailsList.get(position);
     }
 
     @Override
@@ -53,9 +60,9 @@ public class DisbursementItemDetailsListViewAdapter extends BaseAdapter {
         }
 
         //set the results into textViews
-//        holder.tvId.setText(String.valueOf(position+1));
-//        holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
-//        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
+        holder.tvId.setText(String.valueOf(position+1));
+        holder.tvName.setText(detailsList.get(position).getRequisition().getEmployee().getName());
+        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
 
         return convertView;
     }

@@ -14,14 +14,14 @@ import java.util.Locale;
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.model.DisbursementDTO;
 
-public class DisbursementListViewAdapter extends BaseAdapter {
+public class StoreDisbursementListViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater inflater;
     private List<DisbursementDTO> disbursementList;
     private ArrayList<DisbursementDTO> arrayList;
 
-    public DisbursementListViewAdapter(Context context, List<DisbursementDTO> disbursementList) {
+    public StoreDisbursementListViewAdapter(Context context, List<DisbursementDTO> disbursementList) {
         mContext = context;
         this.disbursementList = disbursementList;
         inflater = LayoutInflater.from(mContext);
@@ -30,7 +30,7 @@ public class DisbursementListViewAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        TextView tvLocation, tvDate, tvStatus;
+        TextView tvDepartment, tvLocation;
     }
 
     @Override
@@ -52,19 +52,17 @@ public class DisbursementListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = new ViewHolder();
-        convertView = inflater.inflate(R.layout.disbursement_list_content, parent,false);
+        convertView = inflater.inflate(R.layout.store_disbursement_list_content, parent,false);
 
         //locate the views in xml file
+        holder.tvDepartment = convertView.findViewById(R.id.department);
         holder.tvLocation = convertView.findViewById(R.id.location);
-        holder.tvDate = convertView.findViewById(R.id.date);
-        holder.tvStatus = convertView.findViewById(R.id.status);
 
         convertView.setTag(holder);
 
         //set the results into textViews
+        holder.tvDepartment.setText("Department of " + disbursementList.get(position).getDepartmentName());
         holder.tvLocation.setText(disbursementList.get(position).getCollectionPoint());
-        holder.tvDate.setText(disbursementList.get(position).getDeliveryDateTime());
-        holder.tvStatus.setText(disbursementList.get(position).getRequisitionDetails().get(0).getStatus());
 
         return convertView;
     }
@@ -77,7 +75,7 @@ public class DisbursementListViewAdapter extends BaseAdapter {
         }
         else{
             for(DisbursementDTO disbursement : arrayList) {
-                if(disbursement.getDeliveryDateTime().toLowerCase(Locale.getDefault()).contains(charText)
+                if(disbursement.getDepartmentName().toLowerCase(Locale.getDefault()).contains(charText)
                     || disbursement.getCollectionPoint().toLowerCase(Locale.getDefault()).contains(charText)){
                     disbursementList.add(disbursement);
                 }

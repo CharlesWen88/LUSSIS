@@ -6,21 +6,25 @@ public class RequisitionDetailDTO {
     private String DisbursementId;
     private String StationeryId;
     private String QuantityOrdered;
+    private String QuantityRetrieved;
     private String QuantityDelivered;
     private String Status;
     private StationeryDTO Stationery;
     private DisbursementDTO Disbursement;
+    private RequisitionDTO Requisition;
 
-    public RequisitionDetailDTO(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityDelivered, String status, StationeryDTO stationery, DisbursementDTO disbursement) {
+    public RequisitionDetailDTO(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityRetrieved, String quantityDelivered, String status, StationeryDTO stationery, DisbursementDTO disbursement, RequisitionDTO requisition) {
         Id = id;
         RequisitionId = requisitionId;
         DisbursementId = disbursementId;
         StationeryId = stationeryId;
         QuantityOrdered = quantityOrdered;
+        QuantityRetrieved = quantityRetrieved;
         QuantityDelivered = quantityDelivered;
         Status = status;
         Stationery = stationery;
         Disbursement = disbursement;
+        Requisition = requisition;
     }
 
     public String getId() {
@@ -63,6 +67,14 @@ public class RequisitionDetailDTO {
         QuantityOrdered = quantityOrdered;
     }
 
+    public String getQuantityRetrieved() {
+        return QuantityRetrieved;
+    }
+
+    public void setQuantityRetrieved(String quantityRetrieved) {
+        QuantityRetrieved = quantityRetrieved;
+    }
+
     public String getQuantityDelivered() {
         return QuantityDelivered;
     }
@@ -93,5 +105,13 @@ public class RequisitionDetailDTO {
 
     public void setDisbursement(DisbursementDTO disbursement) {
         Disbursement = disbursement;
+    }
+
+    public RequisitionDTO getRequisition() {
+        return Requisition;
+    }
+
+    public void setRequisition(RequisitionDTO requisition) {
+        Requisition = requisition;
     }
 }
