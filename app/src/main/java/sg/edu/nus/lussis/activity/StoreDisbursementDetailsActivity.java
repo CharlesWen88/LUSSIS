@@ -2,6 +2,7 @@ package sg.edu.nus.lussis.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -45,8 +46,9 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
     TextView tvDepartment, tvRep;
 
     Bitmap bitmapImg;
-    Button clearBtn;
+    Button clearBtn, beginDeliveryBtn;
     SignatureView signatureView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,19 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         //bind the adapter to the listview
         listView.setAdapter(adapter);
+
+        beginDeliveryBtn = findViewById(R.id.begin_delivery);
+        beginDeliveryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beginDeliveryBtn.setOnClickListener(null);
+                beginDeliveryBtn.setTextColor(Color.RED);
+                beginDeliveryBtn.setText("In transit...");
+
+                Intent i = new Intent(StoreDisbursementDetailsActivity.this, TrackerActivity.class);
+                startActivity(i);
+            }
+        });
 
         signatureView =  (SignatureView) findViewById(R.id.signature_view);
         clearBtn = (Button) findViewById(R.id.button_signatureClear);
