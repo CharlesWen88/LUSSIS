@@ -182,6 +182,14 @@
                     android:text="Submit"
                     android:textColor="#fff"
                     android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/begin_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="begin delivery" />
+
             </LinearLayout>
 
 
