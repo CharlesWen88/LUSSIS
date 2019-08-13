@@ -11,10 +11,10 @@ public class DisbursementDTO {
     private boolean AdHoc;
     private String DeliveryDateTime;
     private String CollectionPoint;
-    private byte[] Signature;
+    private String Signature;
     private List<RequisitionDetailDTO> RequisitionDetails;
 
-    public DisbursementDTO(String id, String deliveredEmployeeId, String receivedEmployeeId, String receivedEmployeeName, String departmentName, boolean adHoc, String deliveryDateTime, String collectionPoint, byte[] signature, List<RequisitionDetailDTO> requisitionDetails) {
+    public DisbursementDTO(String id, String deliveredEmployeeId, String receivedEmployeeId, String receivedEmployeeName, String departmentName, boolean adHoc, String deliveryDateTime, String collectionPoint, String signature, List<RequisitionDetailDTO> requisitionDetails) {
         Id = id;
         DeliveredEmployeeId = deliveredEmployeeId;
         ReceivedEmployeeId = receivedEmployeeId;
@@ -91,11 +91,11 @@ public class DisbursementDTO {
         CollectionPoint = collectionPoint;
     }
 
-    public byte[] getSignature() {
+    public String getSignature() {
         return Signature;
     }
 
-    public void setSignature(byte[] signature) {
+    public void setSignature(String signature) {
         Signature = signature;
     }
 

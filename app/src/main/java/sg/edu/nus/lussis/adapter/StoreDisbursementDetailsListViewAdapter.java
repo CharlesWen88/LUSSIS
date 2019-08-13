@@ -72,11 +72,11 @@ public class StoreDisbursementDetailsListViewAdapter extends BaseAdapter {
         holder.tvSN.setText(String.valueOf(position+1));
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
         holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
-        detailsList.get(position).setQuantityRetrieved(detailsList.get(position).getQuantityDelivered());
         holder.mWatcher.setActive(false);
         holder.etQuantity.setText(detailsList.get(position).getQuantityDelivered());
         holder.mWatcher.setPosition(position);
         holder.mWatcher.setActive(true);
+        holder.etQuantity.addTextChangedListener(holder.mWatcher);
 
         return convertView;
     }
@@ -102,7 +102,8 @@ public class StoreDisbursementDetailsListViewAdapter extends BaseAdapter {
 
         @Override
         public void afterTextChanged(Editable s) {
-            detailsList.get(mPosition).setQuantityDelivered(s.toString());
+            if(mActive)
+                detailsList.get(mPosition).setQuantityDelivered(s.toString());
         }
     }
 }

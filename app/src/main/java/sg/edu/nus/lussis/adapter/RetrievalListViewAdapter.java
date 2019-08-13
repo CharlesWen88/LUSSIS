@@ -62,6 +62,7 @@ public class RetrievalListViewAdapter extends BaseAdapter {
             holder.tvNeeded = convertView.findViewById(R.id.qty_needed);
             holder.mWatcher = new MutableWatcher();
             holder.etRetrieved = convertView.findViewById(R.id.qty_retrieved);
+            holder.etRetrieved.addTextChangedListener(holder.mWatcher);
 
             convertView.setTag(holder);
         }
@@ -124,7 +125,8 @@ public class RetrievalListViewAdapter extends BaseAdapter {
 
         @Override
         public void afterTextChanged(Editable s) {
-            retrievalItemList.get(mPosition).setRetrievedQty(s.toString());
+            if(mActive)
+                retrievalItemList.get(mPosition).setRetrievedQty(s.toString());
         }
     }
 }

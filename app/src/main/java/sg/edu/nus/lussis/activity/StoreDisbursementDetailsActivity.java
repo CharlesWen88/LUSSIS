@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.gson.Gson;
 import com.kyanogen.signatureview.SignatureView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -81,6 +83,7 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         boolean added = false;
 
         for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
+            rd.setQuantityRetrieved(rd.getQuantityDelivered());
             for(RequisitionDetailDTO rd1 : requisitionDetails){
                 if(rd.getStationeryId().equals(rd1.getStationeryId())){
                     rd1.setQuantityDelivered(String.valueOf(Integer.parseInt(rd1.getQuantityDelivered()) + Integer.parseInt(rd.getQuantityDelivered())));
@@ -116,7 +119,31 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                List<String> arr = new ArrayList<>();
+                int temp = 0;
+                for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
+                    arr.add(rd.getStationeryId());
+                    for (RequisitionDetailDTO rd1 : disbursement.getRequisitionDetails()) {
+                        if(Integer.parseInt(rd.getId()) < Integer.parseInt(rd1.getId()) && rd.getStationeryId().equals(rd1.getStationeryId())
+                            && Integer.parseInt(rd.getQuantityDelivered()) > Integer.parseInt(rd.getQuantityRetrieved())){
+                            temp = Integer.parseInt(rd.getQuantityDelivered()) - Integer.parseInt(rd.getQuantityRetrieved());
+                            rd.setQuantityDelivered(rd.getQuantityRetrieved());
+                            rd1.setQuantityDelivered(String.valueOf(temp));
+                        }
+                    }
+                }
+
                 bitmapImg = signatureView.getSignatureBitmap();
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmapImg.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                bitmapImg.recycle();
+
+                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                disbursement.setSignature(encodedImage);
                 String s = new Gson().toJson(disbursement);
                 new PostDisbursement().execute(s);
             }
