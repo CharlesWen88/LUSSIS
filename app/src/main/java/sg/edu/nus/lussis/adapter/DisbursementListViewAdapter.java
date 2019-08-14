@@ -64,7 +64,35 @@ public class DisbursementListViewAdapter extends BaseAdapter {
         //set the results into textViews
         holder.tvLocation.setText(disbursementList.get(position).getCollectionPoint());
         holder.tvDate.setText(disbursementList.get(position).getDeliveryDateTime());
-        holder.tvStatus.setText(disbursementList.get(position).getRequisitionDetails().get(0).getStatus());
+
+        String status;
+        switch (disbursementList.get(position).getRequisitionDetails().get(0).getStatus()){
+            case "PREPARING":
+                status = "Preparing";
+                break;
+            case "WAITLIST_APPROVED":
+                status = "Waitlisted";
+                break;
+            case "PENDING_COLLECTION":
+                status = "PENDING COLLECTION";
+                break;
+            case "CANCELLED":
+                status = "CANCELLED";
+                break;
+            case "REJECTED":
+                status = "Rejected";
+                break;
+            case "COLLECTED":
+                status = "FULFILLED";
+                break;
+            case "WAITLIST_PENDING":
+                status = "Waitlist Pending";
+                break;
+            default:
+                status = "Reserved Pending";
+        }
+
+        holder.tvStatus.setText(status);
 
         return convertView;
     }

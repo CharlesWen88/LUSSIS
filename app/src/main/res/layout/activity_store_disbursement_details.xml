@@ -34,7 +34,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -89,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -149,9 +148,8 @@
             <com.kyanogen.signatureview.SignatureView xmlns:sign="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/signature_view"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 sign:backgroundColor="#ffffff"
                 sign:enableSignature="true"
@@ -160,14 +158,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
 
                 <Button
                     android:id="@+id/button_signatureClear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
                     android:text="clear" />
 
 
@@ -175,8 +175,8 @@
                     android:id="@+id/submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_margin="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
                     android:background="@drawable/button_login"
                     android:ems="6"
                     android:text="Submit"
@@ -187,8 +187,9 @@
                     android:id="@+id/begin_delivery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="begin delivery" />
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:text="Begin Delivery" />
 
             </LinearLayout>
 

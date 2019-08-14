@@ -1,10 +1,16 @@
 package sg.edu.nus.lussis.activity;
 
 import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,12 +29,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.model.DisbursementDTO;
 
-public class TrackClerkActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TrackClerkActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = TrackClerkActivity.class.getSimpleName();
     private HashMap<String, Marker> mMarkers = new HashMap<>();
@@ -42,6 +50,17 @@ public class TrackClerkActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
 
@@ -81,7 +100,11 @@ public class TrackClerkActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void subscribeToUpdates() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path) + "/clerk_1");
+        Intent intent = getIntent();
+        final String details = intent.getStringExtra("disbursement");
+        DisbursementDTO disbursement = new Gson().fromJson(details, DisbursementDTO.class);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path) + "/" + disbursement.getDeliveredEmployeeId());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -99,6 +100,10 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
             added = false;
         }
 
+        for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
+            rd.setTempQty(rd.getQuantityDelivered());
+        }
+
 
         //pass results to listViewAdapter class
         adapter = new StoreDisbursementDetailsListViewAdapter(StoreDisbursementDetailsActivity.this, requisitionDetails);
@@ -108,20 +113,22 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         beginDeliveryBtn = findViewById(R.id.begin_delivery);
+
+        if(disbursement.getOnRoute()) {
+            beginDeliveryBtn.setOnClickListener(null);
+            beginDeliveryBtn.setTextColor(Color.RED);
+            beginDeliveryBtn.setText("In transit...");
+        }
+
         beginDeliveryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                beginDeliveryBtn.setOnClickListener(null);
-                beginDeliveryBtn.setTextColor(Color.RED);
-                beginDeliveryBtn.setText("In transit...");
-
-                Intent i = new Intent(StoreDisbursementDetailsActivity.this, TrackerActivity.class);
-                startActivity(i);
+                new PostOnRoute().execute(disbursement.getId());
             }
         });
 
-        signatureView =  (SignatureView) findViewById(R.id.signature_view);
-        clearBtn = (Button) findViewById(R.id.button_signatureClear);
+        signatureView = findViewById(R.id.signature_view);
+        clearBtn = findViewById(R.id.button_signatureClear);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +143,7 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 List<String> arr = new ArrayList<>();
-                int temp = 0;
+                int temp;
                 for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
                     arr.add(rd.getStationeryId());
                     for (RequisitionDetailDTO rd1 : disbursement.getRequisitionDetails()) {
@@ -202,6 +209,55 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
                     i.putExtra("loginDto", login);
                     startActivity(i);
                     finish();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class PostOnRoute extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            String s = strings[0];
+
+            OkHttpClient okHttpClient;
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(5, TimeUnit.MINUTES) // connect timeout
+                    .writeTimeout(5, TimeUnit.MINUTES) // write timeout
+                    .readTimeout(5, TimeUnit.MINUTES); // read timeout
+
+            okHttpClient = builder.build();
+
+            Response response;
+
+
+            //posts the requests
+            RequestBody formBody = new FormBody.Builder()
+                    .add("s", s)
+                    .build();
+
+            //posts the requests
+            Request request = new Request.Builder()
+                    .url(url_Disbursement + "/track/" + s)
+                    .post(formBody)
+                    .build();
+
+            //executes the response and receives the response creates a JSON object from the
+            //response string and uses the roleId to generate the next Activity page
+            try{
+                response = okHttpClient.newCall(request).execute();
+                if(response.isSuccessful() ){
+                    beginDeliveryBtn.setOnClickListener(null);
+                    beginDeliveryBtn.setTextColor(Color.RED);
+                    beginDeliveryBtn.setText("In transit...");
+
+                    Intent i = new Intent(StoreDisbursementDetailsActivity.this, TrackerActivity.class);
+                    String login = getIntent().getStringExtra("loginDto");
+                    i.putExtra("loginDto", login);
+                    startActivity(i);
                 }
             }catch (Exception e){
                 e.printStackTrace();

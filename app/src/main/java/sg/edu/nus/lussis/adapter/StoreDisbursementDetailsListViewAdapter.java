@@ -71,7 +71,7 @@ public class StoreDisbursementDetailsListViewAdapter extends BaseAdapter {
         //set the results into textViews
         holder.tvSN.setText(String.valueOf(position+1));
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
-        holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
+        holder.tvQuantity.setText(detailsList.get(position).getTempQty());
         holder.mWatcher.setActive(false);
         holder.etQuantity.setText(detailsList.get(position).getQuantityDelivered());
         holder.mWatcher.setPosition(position);

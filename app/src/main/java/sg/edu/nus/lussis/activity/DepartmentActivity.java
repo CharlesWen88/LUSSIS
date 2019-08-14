@@ -3,7 +3,9 @@ package sg.edu.nus.lussis.activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -27,9 +29,6 @@ public class DepartmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SessionManager sessionMgr;
-
-//    ListView listView;
-//    MyRequisitionsListViewAdapter adapter;
 
     //Navigation menu
     NavigationView navigationView;
@@ -58,6 +57,9 @@ public class DepartmentActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.department_drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        View navHeader = navigationView.getHeaderView(0);
+        TextView tvName = navHeader.findViewById(R.id.name);
+
 
         //toggle open and close the menu drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,6 +73,7 @@ public class DepartmentActivity extends AppCompatActivity
 
             LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
             int role = Integer.valueOf(login.getRoleId());
+            tvName.setText(login.getName());
 
             if(role == 1 || role == 4) {
                 lastClicked = R.id.nav_pending_requisitions;
@@ -84,6 +87,8 @@ public class DepartmentActivity extends AppCompatActivity
                         new MyRequisitionsFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_my_requisitions);
             }
+
+            hideItem(role);
         }
     }
 

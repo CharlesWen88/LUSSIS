@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -26,8 +28,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import sg.edu.nus.lussis.R;
+import sg.edu.nus.lussis.activity.StoreDisbursementDetailsActivity;
+import sg.edu.nus.lussis.activity.TrackerActivity;
+import sg.edu.nus.lussis.model.LoginDTO;
 
 public class TrackerService extends Service {
     public TrackerService() {
@@ -45,7 +51,17 @@ public class TrackerService extends Service {
     public void onCreate() {
         super.onCreate();
         buildNotification();
-        loginToFirebase();
+
+        //loginToFirebase();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        String log = intent.getStringExtra("loginDto");
+        LoginDTO login = new Gson().fromJson(log, LoginDTO.class);
+        loginToFirebase(login.getEmployeeId());
+
+        return super.onStartCommand(intent, startId, startId);
     }
 
     private void buildNotification() {
@@ -82,7 +98,7 @@ public class TrackerService extends Service {
         stopSelf();
     }
 
-    private void loginToFirebase() {
+    private void loginToFirebase(final String id) {
         // Authenticate with Firebase, and request location updates
         String email = getString(R.string.firebase_email);
         String password = getString(R.string.firebase_password);
@@ -92,7 +108,7 @@ public class TrackerService extends Service {
             public void onComplete(Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "firebase auth success");
-                    requestLocationUpdates();
+                    requestLocationUpdates(id);
                 } else {
                     Log.d(TAG, "firebase auth failed");
                 }
@@ -100,14 +116,14 @@ public class TrackerService extends Service {
         });
     }
 
-    private void requestLocationUpdates() {
+    private void requestLocationUpdates(String id) {
         LocationRequest request = new LocationRequest();
         request.setInterval(10000);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
         //get clerk id dynamically
-        final String path = getString(R.string.firebase_path) + "/" + getString(R.string.clerk_id);
+        final String path = getString(R.string.firebase_path) + "/" + id;
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {

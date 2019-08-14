@@ -63,7 +63,10 @@ public class TrackerActivity extends AppCompatActivity {
     }
 
     private void startTrackerService() {
-        startService(new Intent(this, TrackerService.class));
+        Intent i = new Intent(this, TrackerService.class);
+        String login = getIntent().getStringExtra("loginDto");
+        i.putExtra("loginDto", login);
+        startService(i);
         finish();
     }
 
@@ -73,6 +76,9 @@ public class TrackerActivity extends AppCompatActivity {
         if (requestCode == PERMISSIONS_TRACKING_REQUEST && grantResults.length == 1
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // Start the service when the permission is granted
+            Intent i = new Intent(this, TrackerService.class);
+            String login = getIntent().getStringExtra("loginDto");
+            i.putExtra("loginDto", login);
             startTrackerService();
         } else {
             finish();

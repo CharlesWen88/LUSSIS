@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -64,7 +65,35 @@ public class MyRequisitionDetailsListViewAdapter extends BaseAdapter {
         //set the results into textViews
         holder.tvName.setText(detailsList.get(position).getStationery().getDescription());
         holder.tvQuantity.setText(detailsList.get(position).getQuantityOrdered());
-        holder.tvStatus.setText(detailsList.get(position).getStatus());
+
+        String status;
+        switch (detailsList.get(position).getStatus()){
+            case "PREPARING":
+                status = "Preparing";
+                break;
+            case "WAITLIST_APPROVED":
+                status = "Waitlisted";
+                break;
+            case "PENDING_COLLECTION":
+                status = "Pending";
+                break;
+            case "CANCELLED":
+                status = "Cancelled";
+                break;
+            case "REJECTED":
+                status = "Rejected";
+                break;
+            case "COLLECTED":
+                status = "Fulfilled";
+                break;
+            case "WAITLIST_PENDING":
+                status = "Waitlist Pending";
+                break;
+            default:
+                status = "Reserved Pending";
+        }
+
+        holder.tvStatus.setText(status);
 
         return convertView;
     }

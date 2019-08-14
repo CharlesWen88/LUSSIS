@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import sg.edu.nus.lussis.R;
-import sg.edu.nus.lussis.activity.AdHocRetrievalChooserActivity;
+import sg.edu.nus.lussis.activity.AdHocRetrievalSelection;
 import sg.edu.nus.lussis.activity.RetrievalActivity;
 
 public class RetrievalListFragment extends Fragment {
@@ -45,7 +45,7 @@ public class RetrievalListFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getActivity(), AdHocRetrievalChooserActivity.class);
+                Intent i = new Intent(getActivity(), AdHocRetrievalSelection.class);
                 String login;
                 if(getActivity() != null) {
                     login = getActivity().getIntent().getStringExtra("loginDto");

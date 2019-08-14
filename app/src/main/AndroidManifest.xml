@@ -35,7 +35,9 @@
 
         <activity
             android:name=".activity.TrackClerkActivity"
-            android:label="@string/title_activity_track_clerk"></activity>
+            android:label="@string/title_activity_track_clerk"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".activity.TrackerActivity" />
 
         <service
@@ -102,14 +104,15 @@
             android:name=".activity.RetrievalActivity"
             android:label="Retrieval"
             android:parentActivityName=".activity.StoreActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.StoreActivity" />
         </activity>
         <activity
-            android:name=".activity.AdHocRetrievalChooserActivity"
-            android:label="Retrieval"
+            android:name=".activity.AdHocRetrievalSelection"
+            android:label="Retrieval Selection"
             android:parentActivityName=".activity.StoreActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -120,7 +123,8 @@
             android:name=".activity.StoreDisbursementDetailsActivity"
             android:label="Disbursement Details"
             android:parentActivityName=".activity.StoreActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.StoreActivity" />

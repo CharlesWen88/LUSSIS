@@ -60,7 +60,7 @@ public class DisbursementItemDetailsListViewAdapter extends BaseAdapter {
         }
 
         //set the results into textViews
-        holder.tvId.setText(String.valueOf(position+1));
+        holder.tvId.setText(detailsList.get(position).getRequisitionId());
         holder.tvName.setText(detailsList.get(position).getRequisition().getEmployee().getName());
         holder.tvQuantity.setText(detailsList.get(position).getQuantityDelivered());
 

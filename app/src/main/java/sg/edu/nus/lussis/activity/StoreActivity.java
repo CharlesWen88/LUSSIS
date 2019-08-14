@@ -2,7 +2,9 @@ package sg.edu.nus.lussis.activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -13,10 +15,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.fragment.RetrievalListFragment;
 import sg.edu.nus.lussis.fragment.StoreDisbursementListFragment;
+import sg.edu.nus.lussis.model.LoginDTO;
 import sg.edu.nus.lussis.session.SessionManager;
 
 public class StoreActivity extends AppCompatActivity
@@ -46,6 +50,11 @@ public class StoreActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.store_drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View navHeader = navigationView.getHeaderView(0);
+        TextView tvName = navHeader.findViewById(R.id.name);
+
+        LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
+        tvName.setText(login.getName());
 
         //toggle open and close the menu drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

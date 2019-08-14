@@ -123,8 +123,17 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/disbursement_details_list_content">
+                tools:listitem="@layout/disbursement_details_list_content"
+                android:layout_weight="1">
             </ListView>
+
+            <Button
+                android:id="@+id/track_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="20dp"
+                android:text="Track Delivery" />
 
         </LinearLayout>
 

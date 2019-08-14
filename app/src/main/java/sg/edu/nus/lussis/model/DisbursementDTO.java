@@ -12,9 +12,10 @@ public class DisbursementDTO {
     private String DeliveryDateTime;
     private String CollectionPoint;
     private String Signature;
+    private Boolean OnRoute;
     private List<RequisitionDetailDTO> RequisitionDetails;
 
-    public DisbursementDTO(String id, String deliveredEmployeeId, String receivedEmployeeId, String receivedEmployeeName, String departmentName, boolean adHoc, String deliveryDateTime, String collectionPoint, String signature, List<RequisitionDetailDTO> requisitionDetails) {
+    public DisbursementDTO(String id, String deliveredEmployeeId, String receivedEmployeeId, String receivedEmployeeName, String departmentName, boolean adHoc, String deliveryDateTime, String collectionPoint, String signature, Boolean onRoute, List<RequisitionDetailDTO> requisitionDetails) {
         Id = id;
         DeliveredEmployeeId = deliveredEmployeeId;
         ReceivedEmployeeId = receivedEmployeeId;
@@ -24,6 +25,7 @@ public class DisbursementDTO {
         DeliveryDateTime = deliveryDateTime;
         CollectionPoint = collectionPoint;
         Signature = signature;
+        OnRoute = onRoute;
         RequisitionDetails = requisitionDetails;
     }
 
@@ -97,6 +99,14 @@ public class DisbursementDTO {
 
     public void setSignature(String signature) {
         Signature = signature;
+    }
+
+    public Boolean getOnRoute() {
+        return OnRoute;
+    }
+
+    public void setOnRoute(Boolean onRoute) {
+        OnRoute = onRoute;
     }
 
     public List<RequisitionDetailDTO> getRequisitionDetails() {

@@ -8,12 +8,13 @@ public class RequisitionDetailDTO {
     private String QuantityOrdered;
     private String QuantityRetrieved;
     private String QuantityDelivered;
+    private String TempQty;
     private String Status;
     private StationeryDTO Stationery;
     private DisbursementDTO Disbursement;
     private RequisitionDTO Requisition;
 
-    public RequisitionDetailDTO(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityRetrieved, String quantityDelivered, String status, StationeryDTO stationery, DisbursementDTO disbursement, RequisitionDTO requisition) {
+    public RequisitionDetailDTO(String id, String requisitionId, String disbursementId, String stationeryId, String quantityOrdered, String quantityRetrieved, String quantityDelivered, String tempQty, String status, StationeryDTO stationery, DisbursementDTO disbursement, RequisitionDTO requisition) {
         Id = id;
         RequisitionId = requisitionId;
         DisbursementId = disbursementId;
@@ -21,6 +22,7 @@ public class RequisitionDetailDTO {
         QuantityOrdered = quantityOrdered;
         QuantityRetrieved = quantityRetrieved;
         QuantityDelivered = quantityDelivered;
+        TempQty = tempQty;
         Status = status;
         Stationery = stationery;
         Disbursement = disbursement;
@@ -81,6 +83,14 @@ public class RequisitionDetailDTO {
 
     public void setQuantityDelivered(String quantityDelivered) {
         QuantityDelivered = quantityDelivered;
+    }
+
+    public String getTempQty() {
+        return TempQty;
+    }
+
+    public void setTempQty(String tempQty) {
+        TempQty = tempQty;
     }
 
     public String getStatus() {

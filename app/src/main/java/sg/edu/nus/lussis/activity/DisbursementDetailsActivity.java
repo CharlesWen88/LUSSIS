@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +21,6 @@ import java.util.List;
 import sg.edu.nus.lussis.R;
 import sg.edu.nus.lussis.adapter.DisbursementDetailsListViewAdapter;
 import sg.edu.nus.lussis.model.DisbursementDTO;
-import sg.edu.nus.lussis.model.RequisitionDTO;
 import sg.edu.nus.lussis.model.RequisitionDetailDTO;
 
 public class DisbursementDetailsActivity extends AppCompatActivity {
@@ -73,7 +73,6 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
         }
 
 
-
         DisbursementDetailsListViewAdapter adapter = new DisbursementDetailsListViewAdapter(this, requisitionDetails);
 
         ListView listView = findViewById(R.id.listView);
@@ -93,7 +92,22 @@ public class DisbursementDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
 
+        Button trackClerkBtn = findViewById(R.id.track_delivery);
+        trackClerkBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(DisbursementDetailsActivity.this, TrackClerkActivity.class);
+                i.putExtra("disbursement", details);
+                String login = getIntent().getStringExtra("loginDto");
+                i.putExtra("loginDto", login);
+                startActivity(i);
+            }
+        });
+
+        if(!disbursement.getOnRoute())
+            trackClerkBtn.setVisibility(View.GONE);
+
+    }
 
 }
