@@ -58,6 +58,8 @@ public class StoreDisbursementListFragment extends Fragment {
             getActivity().setTitle("Disbursement List");
         setHasOptionsMenu(true);
 
+        view.findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
         try {
             //retrieves the intent from previous activity to get the employeeId
             JSONObject jsonObj = new JSONObject(getActivity().getIntent().getStringExtra("loginDto"));
@@ -117,7 +119,9 @@ public class StoreDisbursementListFragment extends Fragment {
             //pass results to listViewAdapter class
             adapter = new StoreDisbursementListViewAdapter(getActivity(), disbursements);
 
+
             if(getView() != null) {
+                getView().findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
                 listView = getView().findViewById(R.id.listView);
                 //bind the adapter to the listview
                 listView.setAdapter(adapter);
@@ -127,11 +131,14 @@ public class StoreDisbursementListFragment extends Fragment {
                     public void onItemClick(AdapterView<?> arg0, View arg1,
                                             int position, long id) {
 
+                        getView().findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
                         Intent i = new Intent(getActivity(), StoreDisbursementDetailsActivity.class);
                         i.putExtra("details", (new Gson()).toJson(disbursements.get(position)));
                         String login = getActivity().getIntent().getStringExtra("loginDto");
                         i.putExtra("loginDto", login);
                         startActivity(i);
+                        getView().findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
                     }
                 });
 

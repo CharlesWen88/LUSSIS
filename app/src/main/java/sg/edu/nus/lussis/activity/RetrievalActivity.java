@@ -1,5 +1,6 @@
 package sg.edu.nus.lussis.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -60,6 +62,10 @@ public class RetrievalActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        tvDate = findViewById(R.id.date);
+        tvDate.setVisibility(View.INVISIBLE);
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
         LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
         new GetRetrievalList().execute(login.getEmployeeId());
     }
@@ -106,8 +112,11 @@ public class RetrievalActivity extends AppCompatActivity {
 
         protected void onPostExecute(final RetrievalDTO retrieval) {
 
+            findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+
             tvDate = findViewById(R.id.date);
             tvDate.setText(retrieval.getRetrievalDate());
+            tvDate.setVisibility(View.VISIBLE);
 
             retrievalItemList = retrieval.getRetrievalItem();
 
@@ -123,9 +132,25 @@ public class RetrievalActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
-                    String s = new Gson().toJson(retrieval);
-                    new PostRetrievalList().execute(login.getEmployeeId(), s);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RetrievalActivity.this);
+                    builder.setMessage("Confirm Retrieval?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id1) {
+                                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
+                                    LoginDTO login = new Gson().fromJson(getIntent().getStringExtra("loginDto"), LoginDTO.class);
+                                    String s = new Gson().toJson(retrieval);
+                                    new PostRetrievalList().execute(login.getEmployeeId(), s);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id1) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
         }
@@ -150,7 +175,7 @@ public class RetrievalActivity extends AppCompatActivity {
             Response response;
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, retrieval);
+            RequestBody body = RequestBody.create(retrieval, JSON);
 
             //posts the requests
             Request request = new Request.Builder()

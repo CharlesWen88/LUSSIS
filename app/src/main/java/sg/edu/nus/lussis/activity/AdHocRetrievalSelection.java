@@ -6,7 +6,6 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,9 +49,6 @@ public class AdHocRetrievalSelection extends AppCompatActivity {
 
         spinner2 = findViewById(R.id.spinner2);
         List<String> list = new ArrayList<>();
-        list.add("list 1");
-        list.add("list 2");
-        list.add("list 3");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,11 +72,6 @@ public class AdHocRetrievalSelection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(AdHocRetrievalSelection.this,
-                        "OnClickListener : " +
-                                "\nSpinner 1 : "+ spinner1.getSelectedItem() +
-                                "\nSpinner 2 : "+ spinner2.getSelectedItem(),
-                        Toast.LENGTH_SHORT).show();
             }
 
         });

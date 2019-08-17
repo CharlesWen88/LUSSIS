@@ -87,7 +87,7 @@ public class PendingRequisitionDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PendingRequisitionDetailsActivity.this);
-                builder.setMessage("Comfirm Approval?")
+                builder.setMessage("Confirm Approval?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id1) {
@@ -111,7 +111,7 @@ public class PendingRequisitionDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PendingRequisitionDetailsActivity.this);
-                builder.setMessage("Comfirm Rejection?")
+                builder.setMessage("Confirm Rejection?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id1) {

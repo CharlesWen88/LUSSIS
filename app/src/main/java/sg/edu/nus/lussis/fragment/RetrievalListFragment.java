@@ -55,6 +55,8 @@ public class RetrievalListFragment extends Fragment {
             }
         });
 
+        btn2.setVisibility(View.GONE);
+
         return view;
     }
 }

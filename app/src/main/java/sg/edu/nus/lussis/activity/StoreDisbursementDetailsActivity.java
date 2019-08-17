@@ -1,5 +1,6 @@
 package sg.edu.nus.lussis.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,8 +12,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -128,6 +131,7 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         });
 
         signatureView = findViewById(R.id.signature_view);
+
         clearBtn = findViewById(R.id.button_signatureClear);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
@@ -141,33 +145,63 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                bitmapImg = signatureView.getSignatureBitmap();
+                boolean checker = false;
 
-                List<String> arr = new ArrayList<>();
-                int temp;
-                for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
-                    arr.add(rd.getStationeryId());
-                    for (RequisitionDetailDTO rd1 : disbursement.getRequisitionDetails()) {
-                        if(Integer.parseInt(rd.getId()) < Integer.parseInt(rd1.getId()) && rd.getStationeryId().equals(rd1.getStationeryId())
-                            && Integer.parseInt(rd.getQuantityDelivered()) > Integer.parseInt(rd.getQuantityRetrieved())){
-                            temp = Integer.parseInt(rd.getQuantityDelivered()) - Integer.parseInt(rd.getQuantityRetrieved());
-                            rd.setQuantityDelivered(rd.getQuantityRetrieved());
-                            rd1.setQuantityDelivered(String.valueOf(temp));
+                for(int i=0; i< bitmapImg.getWidth(); i+=15){
+                    for(int j=0; j< bitmapImg.getHeight(); j+=15){
+                        if(bitmapImg.getPixel(i,j) != -1) {
+                            checker = true;
+                            break;
                         }
                     }
                 }
 
-                bitmapImg = signatureView.getSignatureBitmap();
+                if (!checker) {
+                    Toast.makeText(StoreDisbursementDetailsActivity.this, "Signature cannot be empty!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(StoreDisbursementDetailsActivity.this);
+                    builder.setMessage("Confirm Disbursement?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id1) {
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmapImg.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                bitmapImg.recycle();
+                                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
-                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                    List<String> arr = new ArrayList<>();
+                                    int temp;
+                                    for (RequisitionDetailDTO rd : disbursement.getRequisitionDetails()) {
+                                        arr.add(rd.getStationeryId());
+                                        for (RequisitionDetailDTO rd1 : disbursement.getRequisitionDetails()) {
+                                            if (Integer.parseInt(rd.getId()) < Integer.parseInt(rd1.getId()) && rd.getStationeryId().equals(rd1.getStationeryId())
+                                                    && Integer.parseInt(rd.getQuantityDelivered()) > Integer.parseInt(rd.getQuantityRetrieved())) {
+                                                temp = Integer.parseInt(rd.getQuantityDelivered()) - Integer.parseInt(rd.getQuantityRetrieved());
+                                                rd.setQuantityDelivered(rd.getQuantityRetrieved());
+                                                rd1.setQuantityDelivered(String.valueOf(temp));
+                                            }
+                                        }
+                                    }
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmapImg.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byte[] byteArray = stream.toByteArray();
+                                    bitmapImg.recycle();
 
-                disbursement.setSignature(encodedImage);
-                String s = new Gson().toJson(disbursement);
-                new PostDisbursement().execute(s);
+                                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                                    disbursement.setSignature(encodedImage);
+                                    String s = new Gson().toJson(disbursement);
+                                    new PostDisbursement().execute(s);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id1) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
     }
@@ -190,7 +224,7 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
             Response response;
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, disbursement);
+            RequestBody body = RequestBody.create(disbursement, JSON);
 
             //posts the requests
             Request request = new Request.Builder()
@@ -232,7 +266,6 @@ public class StoreDisbursementDetailsActivity extends AppCompatActivity {
             okHttpClient = builder.build();
 
             Response response;
-
 
             //posts the requests
             RequestBody formBody = new FormBody.Builder()
